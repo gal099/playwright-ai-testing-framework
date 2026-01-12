@@ -1,25 +1,25 @@
 # AI Model Selection Strategy
 
-Este documento explica cómo se usan diferentes modelos de Claude para optimizar costos y performance.
+This document explains how different Claude models are used to optimize costs and performance.
 
-## Modelos Disponibles
+## Available Models
 
 ### Haiku (claude-3-haiku-20240307)
-- **Costo:** Bajo (~$0.00025 / 1K tokens input, ~$0.00125 / 1K tokens output)
-- **Velocidad:** Rápido
-- **Uso:** Tareas simples de texto y análisis básico
+- **Cost:** Low (~$0.00025 / 1K tokens input, ~$0.00125 / 1K tokens output)
+- **Speed:** Fast
+- **Use:** Simple text tasks and basic analysis
 
 ### Sonnet (claude-3-5-sonnet-20241022)
-- **Costo:** Medio (~$0.003 / 1K tokens input, ~$0.015 / 1K tokens output)
-- **Velocidad:** Moderado
-- **Uso:** Balance entre calidad y costo, visión AI
+- **Cost:** Medium (~$0.003 / 1K tokens input, ~$0.015 / 1K tokens output)
+- **Speed:** Moderate
+- **Use:** Balance between quality and cost, AI vision
 
 ### Opus (claude-3-opus-20240229)
-- **Costo:** Alto (~$0.015 / 1K tokens input, ~$0.075 / 1K tokens output)
-- **Velocidad:** Más lento
-- **Uso:** Casos complejos que requieren máxima capacidad
+- **Cost:** High (~$0.015 / 1K tokens input, ~$0.075 / 1K tokens output)
+- **Speed:** Slower
+- **Use:** Complex cases requiring maximum capability
 
-## Asignación por Feature
+## Feature Assignment
 
 ### Self-Healing Selectors → **Haiku**
 ```typescript
@@ -27,9 +27,9 @@ Este documento explica cómo se usan diferentes modelos de Claude para optimizar
 model: 'haiku'
 maxTokens: 1024
 ```
-**Razón:** Análisis simple de DOM y sugerencia de selectores. No requiere razonamiento complejo.
+**Reason:** Simple DOM analysis and selector suggestions. Doesn't require complex reasoning.
 
-**Costo estimado:** ~$0.002 por selector healed
+**Estimated cost:** ~$0.002 per healed selector
 
 ### Test Generation → **Sonnet**
 ```typescript
@@ -37,9 +37,9 @@ maxTokens: 1024
 model: 'sonnet'
 maxTokens: 4096
 ```
-**Razón:** Necesita visión AI para analizar screenshots y generar código complejo.
+**Reason:** Requires AI vision to analyze screenshots and generate complex code.
 
-**Costo estimado:** ~$0.05-0.15 por test generado
+**Estimated cost:** ~$0.05-0.15 per generated test
 
 ### AI Assertions
 
@@ -48,141 +48,141 @@ maxTokens: 4096
 model: 'sonnet'
 maxTokens: 2048
 ```
-**Razón:** Requiere capacidades de visión AI avanzadas.
+**Reason:** Requires advanced AI vision capabilities.
 
-**Costo estimado:** ~$0.01-0.02 por assertion
+**Estimated cost:** ~$0.01-0.02 per assertion
 
 #### Semantic Content → **Haiku**
 ```typescript
 model: 'haiku'
 maxTokens: 512
 ```
-**Razón:** Comparación simple de texto, no requiere visión.
+**Reason:** Simple text comparison, doesn't require vision.
 
-**Costo estimado:** ~$0.001 por assertion
+**Estimated cost:** ~$0.001 per assertion
 
 #### Layout → **Sonnet**
 ```typescript
 model: 'sonnet'
 maxTokens: 2048
 ```
-**Razón:** Análisis visual de disposición y estructura.
+**Reason:** Visual analysis of layout and structure.
 
-**Costo estimado:** ~$0.01-0.02 por assertion
+**Estimated cost:** ~$0.01-0.02 per assertion
 
 #### Accessibility → **Sonnet**
 ```typescript
 model: 'sonnet'
 maxTokens: 2048
 ```
-**Razón:** Requiere análisis visual + comprensión de estándares a11y.
+**Reason:** Requires visual analysis + understanding of a11y standards.
 
-**Costo estimado:** ~$0.01-0.02 por assertion
+**Estimated cost:** ~$0.01-0.02 per assertion
 
 #### Data Validation → **Haiku**
 ```typescript
 model: 'haiku'
 maxTokens: 512
 ```
-**Razón:** Validación lógica simple de datos textuales.
+**Reason:** Simple logical validation of textual data.
 
-**Costo estimado:** ~$0.001 por validation
+**Estimated cost:** ~$0.001 per validation
 
 ### Test Maintenance → **Sonnet**
 
-#### Análisis
+#### Analysis
 ```typescript
 model: 'sonnet'
 maxTokens: 3072
 ```
-**Razón:** Requiere comprensión profunda de patrones de código.
+**Reason:** Requires deep understanding of code patterns.
 
-**Costo estimado:** ~$0.02-0.05 por archivo analizado
+**Estimated cost:** ~$0.02-0.05 per analyzed file
 
 #### Refactoring
 ```typescript
 model: 'sonnet'
 maxTokens: 4096
 ```
-**Razón:** Generación de código complejo manteniendo lógica.
+**Reason:** Complex code generation while maintaining logic.
 
-**Costo estimado:** ~$0.05-0.10 por archivo refactorizado
+**Estimated cost:** ~$0.05-0.10 per refactored file
 
-## Estimación de Costos
+## Cost Estimation
 
-### Suite de Tests Típica (100 tests)
+### Typical Test Suite (100 tests)
 
-**Desarrollo inicial:**
+**Initial development:**
 - Test generation: 20 tests × $0.10 = **$2.00**
-- Manual tests: 80 tests (sin costo AI)
+- Manual tests: 80 tests (no AI cost)
 
-**Ejecución diaria:**
+**Daily execution:**
 - Self-healing: 5 failures × $0.002 = **$0.01**
 - AI assertions: 20 assertions × $0.015 = **$0.30**
-- Total por ejecución: **~$0.31**
+- Total per run: **~$0.31**
 
-**Mantenimiento mensual:**
-- Análisis suite: 100 tests × $0.03 = **$3.00**
+**Monthly maintenance:**
+- Suite analysis: 100 tests × $0.03 = **$3.00**
 - Refactoring: 10 tests × $0.075 = **$0.75**
-- Total mensual: **~$3.75**
+- Monthly total: **~$3.75**
 
-**Costo total estimado primer mes:** ~$6.06
-**Costo mensual recurrente:** ~$10-15 (con ejecuciones diarias)
+**Estimated total first month cost:** ~$6.06
+**Recurring monthly cost:** ~$10-15 (with daily runs)
 
-## Comparación con Modelo Único
+## Single Model Comparison
 
-Si usáramos **solo Opus** para todo:
-- Costo sería **~5-8x mayor**
-- Suite de 100 tests: ~$30-50/mes
+If using **only Opus** for everything:
+- Cost would be **~5-8x higher**
+- 100-test suite: ~$30-50/month
 
-Si usáramos **solo Haiku** para todo:
-- Costo sería **~80% menor**
-- Pero calidad de test generation y visual assertions sería inferior
+If using **only Haiku** for everything:
+- Cost would be **~80% lower**
+- But test generation and visual assertion quality would be inferior
 
-## Optimizaciones Adicionales
+## Additional Optimizations
 
-### 1. Cache de Self-Healing
-Los selectores healed se cachean, reduciendo llamadas repetidas.
+### 1. Self-Healing Cache
+Healed selectors are cached, reducing repeated calls.
 
-### 2. Deshabilitar AI en CI/CD
-Para tests de smoke rápidos, configurar:
+### 2. Disable AI in CI/CD
+For fast smoke tests, configure:
 ```bash
 ENABLE_SELF_HEALING=false
 ENABLE_AI_ASSERTIONS=false
 ```
 
 ### 3. Selective AI Assertions
-Usar AI assertions solo en tests críticos, no en todos.
+Use AI assertions only in critical tests, not all tests.
 
 ### 4. Batch Analysis
-Analizar múltiples tests juntos en mantenimiento.
+Analyze multiple tests together in maintenance.
 
-## Cuándo Usar Opus
+## When to Use Opus
 
-Actualmente Opus es el fallback default, pero puede usarse explícitamente para:
-- Debugging de casos complejos
-- Primera vez generando tests para aplicación muy compleja
-- Análisis profundo de issues de accesibilidad
+Currently Opus is the default fallback, but can be explicitly used for:
+- Debugging complex cases
+- First-time test generation for very complex applications
+- Deep analysis of accessibility issues
 
-Para usar Opus explícitamente, modificar el código del feature específico.
+To use Opus explicitly, modify the specific feature code.
 
-## Monitoreo de Costos
+## Cost Monitoring
 
-Para trackear costos reales:
-1. Revisar dashboard de Anthropic
-2. Logs muestran qué modelo se usa en cada llamada
-3. Considerar agregar telemetría custom
+To track real costs:
+1. Review Anthropic dashboard
+2. Logs show which model is used in each call
+3. Consider adding custom telemetry
 
-## Actualización de Modelos
+## Model Updates
 
-Este documento se actualizó: 2025-12-19
+This document was last updated: 2025-12-19
 
-Revisar regularmente:
-- Nuevos modelos de Anthropic
-- Cambios en pricing
-- Mejoras en capacidades
+Review regularly:
+- New Anthropic models
+- Pricing changes
+- Capability improvements
 
-## Referencias
+## References
 
 - [Anthropic Pricing](https://www.anthropic.com/pricing)
 - [Model Comparison](https://docs.anthropic.com/en/docs/models-overview)

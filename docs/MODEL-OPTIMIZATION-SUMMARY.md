@@ -1,31 +1,31 @@
-# Resumen de Optimización de Modelos AI
+# AI Model Optimization Summary
 
-## ✅ Implementación Completada
+## ✅ Implementation Completed
 
-Se ha configurado el framework para usar diferentes modelos de Claude según la complejidad de cada tarea, optimizando costos sin sacrificar calidad.
+The framework has been configured to use different Claude models based on task complexity, optimizing costs without sacrificing quality.
 
-## Cambios Realizados
+## Changes Made
 
-### 1. AI Client Mejorado (`config/ai-client.ts`)
+### 1. Enhanced AI Client (`config/ai-client.ts`)
 
-**Antes:**
-- Un solo modelo para todas las operaciones
-- Sin control de tokens por operación
+**Before:**
+- Single model for all operations
+- No token control per operation
 
-**Después:**
+**After:**
 ```typescript
 export type AIModel = 'haiku' | 'sonnet' | 'opus';
 
 aiClient.ask(prompt, systemPrompt, {
-  model: 'haiku',    // Selección dinámica
-  maxTokens: 512     // Control fino
+  model: 'haiku',    // Dynamic selection
+  maxTokens: 512     // Fine control
 });
 ```
 
-### 2. Asignación de Modelos por Feature
+### 2. Model Assignment by Feature
 
-| Feature | Modelo | Max Tokens | Costo Estimado |
-|---------|--------|------------|----------------|
+| Feature | Model | Max Tokens | Estimated Cost |
+|---------|-------|------------|----------------|
 | **Self-Healing Selectors** | Haiku | 1024 | $0.002/selector |
 | **Test Generation** | Sonnet | 4096 | $0.05-0.15/test |
 | **Visual Assertions** | Sonnet | 2048 | $0.01-0.02/assertion |
@@ -36,12 +36,12 @@ aiClient.ask(prompt, systemPrompt, {
 | **Test Analysis** | Sonnet | 3072 | $0.02-0.05/file |
 | **Test Refactoring** | Sonnet | 4096 | $0.05-0.10/file |
 
-### 3. Archivos Modificados
+### 3. Modified Files
 
 #### `config/ai-client.ts`
-- Agregado soporte para múltiples modelos
-- Interface `AIClientOptions` para control fino
-- Mapping de nombres amigables a model IDs
+- Added multi-model support
+- `AIClientOptions` interface for fine control
+- Friendly name mapping to model IDs
 
 #### `utils/selectors/self-healing.ts`
 ```typescript
@@ -71,61 +71,61 @@ const testCode = await aiClient.askWithImage(prompt, screenshot, 'image/png', {
 - Refactoring: Sonnet (4096 tokens)
 
 #### `.env.example`
-- Actualizado con documentación de estrategia
-- Eliminado `AI_MODEL` (ahora por feature)
+- Updated with strategy documentation
+- Removed `AI_MODEL` (now per-feature)
 
-### 4. Documentación
+### 4. Documentation
 
-- `docs/AI-MODEL-STRATEGY.md`: Estrategia completa con costos y decisiones
-- `docs/MODEL-OPTIMIZATION-SUMMARY.md`: Este resumen
+- `docs/AI-MODEL-STRATEGY.md`: Complete strategy with costs and decisions
+- `docs/MODEL-OPTIMIZATION-SUMMARY.md`: This summary
 
-## Impacto en Costos
+## Cost Impact
 
-### Antes (todo con Opus)
-- Test generation: $0.30 por test
-- Self-healing: $0.015 por selector
-- Assertions: $0.05 cada una
-- **Total mensual estimado: $50-80**
+### Before (all with Opus)
+- Test generation: $0.30 per test
+- Self-healing: $0.015 per selector
+- Assertions: $0.05 each
+- **Estimated monthly total: $50-80**
 
-### Después (optimizado)
-- Test generation: $0.10 por test (Sonnet)
-- Self-healing: $0.002 por selector (Haiku)
-- Visual assertions: $0.015 cada una (Sonnet)
-- Semantic assertions: $0.001 cada una (Haiku)
-- **Total mensual estimado: $10-15**
+### After (optimized)
+- Test generation: $0.10 per test (Sonnet)
+- Self-healing: $0.002 per selector (Haiku)
+- Visual assertions: $0.015 each (Sonnet)
+- Semantic assertions: $0.001 each (Haiku)
+- **Estimated monthly total: $10-15**
 
-**Reducción de costos: ~70-80%**
+**Cost reduction: ~70-80%**
 
-## Próximos Pasos Sugeridos
+## Suggested Next Steps
 
-### 1. Monitoreo de Costos
+### 1. Cost Monitoring
 ```bash
-# Agregar logging de costos
+# Add cost logging
 console.log(`[${model}] Cost estimate: $${estimate}`);
 ```
 
-### 2. Métricas de Performance
-- Tiempo de respuesta por modelo
-- Tasa de éxito de self-healing
-- Calidad de tests generados
+### 2. Performance Metrics
+- Response time per model
+- Self-healing success rate
+- Generated test quality
 
-### 3. Optimizaciones Adicionales
+### 3. Additional Optimizations
 
-**Cache más agresivo:**
+**More aggressive caching:**
 ```typescript
-// Cachear no solo selectores sino también assertions comunes
+// Cache not only selectors but also common assertions
 const assertionCache = new Map<string, AssertionResult>();
 ```
 
 **Batching:**
 ```typescript
-// Analizar múltiples tests en una sola llamada
+// Analyze multiple tests in a single call
 analyzeTestFiles([file1, file2, file3]);
 ```
 
-**Fallback inteligente:**
+**Smart fallback:**
 ```typescript
-// Si Haiku falla, intentar con Sonnet
+// If Haiku fails, try with Sonnet
 try {
   return await askWithHaiku();
 } catch {
@@ -135,58 +135,58 @@ try {
 
 ### 4. CI/CD Configuration
 
-Para GitHub Actions:
+For GitHub Actions:
 ```yaml
 env:
-  ENABLE_SELF_HEALING: false  # Deshabilitado en CI
+  ENABLE_SELF_HEALING: false  # Disabled in CI
   ENABLE_AI_ASSERTIONS: false
   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_KEY }}
 ```
 
-Para tests locales:
+For local tests:
 ```bash
 # .env.development
 ENABLE_SELF_HEALING=true
 ENABLE_AI_ASSERTIONS=true
 ```
 
-## Testing de la Optimización
+## Testing the Optimization
 
-### Verificar que funciona:
+### Verify it works:
 
 ```bash
-# 1. Tests básicos siguen pasando
+# 1. Basic tests still pass
 npm test tests/generated/login-navigation.spec.ts -- --project=chromium
 
-# 2. Self-healing usa Haiku (ver logs)
-# Buscar: "AI Client Error (model: claude-3-haiku..."
+# 2. Self-healing uses Haiku (check logs)
+# Look for: "AI Client Error (model: claude-3-haiku..."
 
-# 3. Test generation usa Sonnet
+# 3. Test generation uses Sonnet
 npm run ai:generate https://example.com "test"
-# Ver log: "model: claude-3-5-sonnet..."
+# Check log: "model: claude-3-5-sonnet..."
 ```
 
-### Validar TypeScript:
+### Validate TypeScript:
 ```bash
 npx tsc --noEmit
 # ✓ No errors
 ```
 
-## Notas Importantes
+## Important Notes
 
-1. **Modelos no disponibles**: Si tu API key no tiene acceso a Sonnet 3.5, el sistema fallará. Actualizar a Opus en ese caso.
+1. **Models unavailable**: If your API key doesn't have access to Sonnet 3.5, the system will fail. Update to Opus in that case.
 
-2. **Rate Limits**: Los modelos tienen diferentes rate limits. Haiku permite más requests/minuto.
+2. **Rate Limits**: Models have different rate limits. Haiku allows more requests/minute.
 
-3. **Calidad vs Costo**: Si la calidad de Haiku no es suficiente para algún caso, subir a Sonnet.
+3. **Quality vs Cost**: If Haiku quality isn't sufficient for a case, upgrade to Sonnet.
 
-4. **Actualizar regularmente**: Anthropic lanza nuevos modelos. Revisar cada 3-6 meses.
+4. **Regular updates**: Anthropic releases new models. Review every 3-6 months.
 
-## Estado Actual
+## Current Status
 
-✅ Implementación completa
-✅ Sin errores de TypeScript
-✅ Tests de login funcionando
-✅ Documentación lista
+✅ Implementation complete
+✅ No TypeScript errors
+✅ Login tests working
+✅ Documentation ready
 
-**Siguiente acción recomendada:** Probar todas las features AI con los nuevos modelos para validar calidad.
+**Recommended next action:** Test all AI features with the new models to validate quality.
