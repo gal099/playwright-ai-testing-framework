@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-01-14
+
+### Fixed
+
+- **AI Model Versions**: Updated to Claude 4.5 series to fix 404 errors
+  - Updated Sonnet: `claude-3-5-sonnet-20241022` → `claude-sonnet-4-5-20250929`
+  - Updated Opus: `claude-3-opus-20240229` → `claude-opus-4-5-20251101`
+  - Kept Haiku: `claude-3-haiku-20240307` (latest stable)
+  - Location: `config/ai-client.ts`
+  - Documentation: Updated `docs/AI-MODEL-STRATEGY.md`, `CLAUDE.md`, `.env.example`
+  - Resolves: AI feature tests failing with "model not found" errors
+  - Testing: All models validated and working correctly
+
+**Impact:** This fixes the pre-existing issue where AI-powered features (self-healing selectors, AI assertions, test generation, test case planning) were failing with 404 errors due to deprecated model versions. All AI features now use the latest Claude 4.5 models.
+
 ## [1.4.0] - 2026-01-14
 
 ### Added
