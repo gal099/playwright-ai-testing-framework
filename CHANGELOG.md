@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2] - 2026-01-14
+
+### Changed
+
+- **Repository Renamed**: `playwright-ai-testing-template` → `playwright-ai-testing-framework`
+  - Better reflects dual nature: framework source + reusable template
+  - GitHub redirect preserves old URLs automatically
+  - Updated all internal references (package.json, README.md, CHANGELOG.md)
+  - Repository URL: https://github.com/gal099/playwright-ai-testing-framework
+
+- **Documentation Restructure**: Added comprehensive dual-mode documentation
+  - **Framework Development Mode**: For developers working ON the framework
+    - Added warning banner to CLAUDE.md directing framework devs to CLAUDE-DEV.md
+    - Added "User Perspective" section in CLAUDE-DEV.md
+    - Documents framework improvement workflow
+  - **Template Usage Mode**: For users working WITH the framework
+    - Clear separation of concerns in README.md
+    - Separate Quick Start instructions for each mode
+    - Mode-specific command documentation
+  - README.md: Complete restructure with mode-specific sections
+  - CLAUDE.md: Terminology clarified (framework vs template context)
+  - GETTING-STARTED.md: Updated to reflect framework nature
+
+### Added
+
+- **Git & Review Protocol**: Mandatory review process before pushing (ENHANCE-003)
+  - CLAUDE-DEV.md: New "Git & Review Protocol (MANDATORY)" section
+  - Step-by-step checklist before pushing to remote
+  - Mandatory `/review-changes` before commits to main
+  - Framework commands updated with review step (improve-framework, fix-framework)
+  - Emphasizes importance when working directly on main branch
+  - Rationale: Catches issues before public, validates consistency, ensures quality
+
+- **TODO_template.md**: Now tracked in git for framework development
+  - Previously ignored, now visible for team collaboration
+  - Tracks framework improvements, bugs, and enhancements
+  - Updated ENHANCE-003 status to implemented
+
+- **Test Case Planner Feature**: Added to README.md feature list
+  - Previously missing from main feature showcase
+  - Links to v1.4.0 feature implementation
+
+### Fixed
+
+- **settings.local.json**: Removed from git tracking
+  - Personal configuration file now properly excluded
+  - No longer appears as modified in git status
+
+- **.gitignore**: Removed TODO_template.md exclusion
+  - Framework development TODOs now visible to team
+
+### Documentation
+
+- README.md: Updated title from "Template" to "Framework"
+- package.json: Added repository field with new URL
+- CHANGELOG.md: Updated repository links
+- All documentation now consistently uses "framework" for source, "template" for generated output
+
+**Breaking Changes**: Repository URL changed, but GitHub redirects handle this automatically. Users cloning the old URL will be redirected to the new one.
+
+**Migration**: No action needed for existing users. Git remotes will work automatically via GitHub redirect, but can be updated manually:
+```bash
+git remote set-url origin git@github.com:gal099/playwright-ai-testing-framework.git
+```
+
 ## [1.4.1] - 2026-01-14
 
 ### Fixed
