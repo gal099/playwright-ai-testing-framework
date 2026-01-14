@@ -81,6 +81,31 @@ Add more test coverage to an existing feature.
 
 ---
 
+### `/review-changes [base_branch]`
+Get comprehensive AI review before creating PR.
+
+**When to use:** Before creating a pull request to get feedback on your changes.
+
+**What it does:**
+- Analyzes all files changed in your branch
+- Reviews code quality, test coverage, and documentation
+- Checks for common issues and best practices
+- Provides actionable feedback with severity levels
+- Reports: Ready for PR / Needs Changes / Blocked
+
+**Example:**
+```
+/review-changes
+/review-changes main
+```
+
+**When to run:**
+- After all tests pass (`npm test`)
+- Before creating pull request
+- After addressing previous review feedback
+
+---
+
 ## Commands Reference
 
 ### Running Tests

@@ -79,6 +79,38 @@ Fix bugs in the framework code itself.
 
 ---
 
+### `/review-changes [base_branch]`
+Comprehensive AI review of changes before creating PR.
+
+**When to use:**
+- Before creating any pull request
+- After implementing framework improvements or fixes
+- Before merging to main/master
+- To get feedback on code quality and architecture
+
+**Example:**
+```
+/review-changes
+/review-changes develop
+```
+
+**What it does:**
+- Analyzes all files changed in your branch
+- Reviews code quality, architecture, and best practices
+- Checks for bugs, security issues, performance problems
+- Validates documentation completeness
+- Ensures tests are included and passing
+- Provides actionable recommendations with severity levels
+- Reports: Ready for PR / Needs Changes / Blocked
+
+**When to run:**
+- After completing all implementation work
+- After all tests pass (`npm test`)
+- Before pushing branch and creating PR
+- After addressing previous review feedback
+
+---
+
 ## 🔍 What is "Framework Code"?
 
 ### Framework Code (What You're Improving)
