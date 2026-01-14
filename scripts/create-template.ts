@@ -202,7 +202,7 @@ async function updatePackageJson() {
 
   pkg.name = 'playwright-ai-testing-template';
   pkg.version = '1.0.0';
-  pkg.description = 'AI-Powered Playwright Testing Framework - Template for E2E testing with Claude AI integration';
+  pkg.description = 'AI-Powered Playwright Testing Framework - Reusable template for E2E testing with Claude AI integration';
   delete pkg.repository;
   delete pkg.author;
 
@@ -245,9 +245,9 @@ AI_MAX_TOKENS=4096
 async function updateReadme() {
   console.log('📖 Updating README.md...\n');
 
-  const readme = `# Playwright AI Testing Template
+  const readme = `# Playwright AI Testing Framework Template
 
-An **AI-powered Playwright testing framework** that combines traditional E2E testing with Claude AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
+An **AI-powered testing template** that combines traditional Playwright E2E testing with Claude AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
 
 ## Features
 
@@ -473,7 +473,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an **AI-Powered Playwright Testing Framework** template for E2E testing. It combines traditional Playwright testing with Claude AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
+This is an **AI-Powered Playwright Testing Framework** template for E2E testing. Use this template to build automated tests for your application with AI capabilities including intelligent test generation, self-healing selectors, and AI-powered assertions.
 
 **To use this template**: Configure \`.env\` with your application URL and credentials, then start writing tests!
 

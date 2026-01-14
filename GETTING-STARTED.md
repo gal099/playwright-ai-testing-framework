@@ -1,6 +1,6 @@
-# Getting Started with Playwright AI Testing Template
+# Getting Started with Playwright AI Testing Framework
 
-Welcome! This template gives you a production-ready Playwright testing framework with AI superpowers.
+Welcome! This framework gives you a production-ready Playwright testing platform with AI superpowers, and can be used as a reusable template for your projects.
 
 ## What You Get
 

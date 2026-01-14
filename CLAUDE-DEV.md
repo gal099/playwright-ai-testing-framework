@@ -10,6 +10,18 @@ This guide is for developers working on the Playwright AI Testing Framework itse
 
 ---
 
+## 👥 User Perspective
+
+When developing framework features, refer to `CLAUDE.md` to understand:
+- How end users interact with the framework
+- Environment variables users configure
+- Common patterns users expect
+- Commands available to users (/new-screen, /fix-test, /add-coverage)
+
+This helps ensure backwards compatibility and good UX. You can open `CLAUDE.md` manually when needed, but this file (`CLAUDE-DEV.md`) is your primary reference for framework development.
+
+---
+
 ## 🎯 What is Framework Development?
 
 **Framework development** means improving the framework code itself:

@@ -1,8 +1,8 @@
-# Playwright AI Testing Template
+# Playwright AI Testing Framework
 
 > **Version 1.4.1** | [Changelog](CHANGELOG.md)
 
-An **AI-powered Playwright testing framework** that combines traditional E2E testing with Claude AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
+A testing framework that serves as both a development platform and a reusable template for E2E testing with Claude AI integration. Combines traditional Playwright testing with AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
 
 ## Features
 
@@ -11,86 +11,137 @@ An **AI-powered Playwright testing framework** that combines traditional E2E tes
 - 🔄 **Self-Healing Selectors**: Automatically repair broken selectors using AI vision + DOM analysis
 - 🎯 **Smart Assertions**: Visual, semantic, layout, and accessibility assertions powered by AI
 - 📝 **Test Generation**: Generate tests from screenshots using AI vision
+- 📋 **Test Case Planner**: Generate comprehensive test documentation from screenshots before automation
 - 📧 **OTP Authentication**: Email-based verification code extraction with AI (Mailtrap integration)
 - 🤖 **Claude Code Commands**: Structured workflows for test automation and framework development
 - 🔍 **AI Code Review**: Pre-PR review with actionable feedback and severity levels
 - 🏗️ **Clean Architecture**: Organized by priority (P1/P2/P3) with helper-based patterns
 - 💰 **Cost-Optimized**: Caching and smart model selection to minimize AI API costs
 
+## Two Usage Modes
+
+This repository serves two distinct purposes:
+
+### 🔧 Framework Development Mode (Working ON the framework)
+
+If you cloned this repository directly and see `CLAUDE-DEV.md`, you're in **framework development mode**. This means you're improving the framework itself.
+
+**Use this mode for:**
+- Adding new AI helpers or framework features
+- Fixing bugs in framework code
+- Improving architecture and patterns
+- Optimizing AI model selection and costs
+
+**Key files:**
+- `CLAUDE-DEV.md` - Framework development guide (read this)
+- `TODO_template.md` - Framework improvements tracking
+- `.claude/commands/` - Framework development commands (`/improve-framework`, `/fix-framework`)
+
+**Commands available:**
+- `/improve-framework <description>` - Add new framework features
+- `/fix-framework <bug_description>` - Fix framework bugs
+- `/review-changes [base_branch]` - AI code review before PR
+
+### 📋 Template Usage Mode (Working WITH the framework)
+
+After running `npm run create-template`, you get a clean template for testing your applications. In this mode, `CLAUDE-DEV.md` and framework dev files are removed.
+
+**Use this mode for:**
+- Writing E2E tests for your application
+- Testing screens and features of your app
+- Creating project-specific helpers
+- Automating test scenarios
+
+**Key files:**
+- `CLAUDE.md` - Template usage guide (read this)
+- `.claude/commands/` - User commands (`/new-screen`, `/fix-test`, `/add-coverage`)
+
+**Commands available:**
+- `/new-screen <screen_name>` - Create tests for a new screen
+- `/fix-test [test_name]` - Debug and fix failing tests
+- `/add-coverage <feature_name>` - Add more test coverage
+- `/review-changes [base_branch]` - AI code review before PR
+
+---
+
 ## Quick Start
 
-### 1. Installation
+Choose your path based on your mode:
+
+### 🔧 Framework Development Mode
+
+If you're working **ON** the framework (improving it):
 
 ```bash
+# 1. Clone the repository
+git clone <repo-url>
+cd playwright-ai-testing-framework
+
+# 2. Install dependencies
 npm install
-```
 
-### 2. Configuration
+# 3. Read framework development guide
+# Open CLAUDE-DEV.md for detailed instructions
 
-**Environment Variables:**
+# 4. Check pending framework tasks
+# See TODO_template.md for improvements tracking
 
-Copy `.env.example` to `.env` and configure:
-
-```bash
+# 5. (Optional) Configure .env for testing AI features
 cp .env.example .env
+# Add your ANTHROPIC_API_KEY if testing AI-powered features
+
+# 6. Run existing tests to ensure everything works
+npm test
 ```
 
-Required variables:
-- `APP_URL`: Your application URL
-- `ADMIN_USER`, `ADMIN_PASS`: Admin credentials
-- `ANTHROPIC_API_KEY`: For AI features (optional)
+**Next steps:**
+- Use `/improve-framework` to add new features
+- Use `/fix-framework` to fix bugs
+- See `CLAUDE-DEV.md` for complete workflow
 
-**Claude Code Settings (Optional):**
+### 📋 Template Usage Mode
 
-If using [Claude Code](https://claude.ai/code), copy the settings template:
+If you're working **WITH** the framework (testing your application):
 
 ```bash
+# 1. Generate clean template (removes framework dev files)
+npm run create-template
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure for YOUR application
+cp .env.example .env
+# Edit .env with:
+#   APP_URL=http://your-app-url.com
+#   ADMIN_USER=your-admin@email.com
+#   ADMIN_PASS=your-admin-password
+#   ANTHROPIC_API_KEY=sk-ant-... (optional, for AI features)
+
+# 4. (Optional) Configure Claude Code settings
 cp .claude/settings.local.json.example .claude/settings.local.json
-```
 
-This configures permissions for Claude Code commands. Modify to match your workflow.
-
-### 3. Run Tests
-
-```bash
-# Run all tests
+# 5. Run example tests
 npm test
 
-# Run in headed mode
-npm run test:headed
-
-# Open Playwright UI
-npm run test:ui
-
-# Debug tests
-npm run test:debug
+# 6. Start creating your tests
+# Use /new-screen <screen_name> to create tests for your app
 ```
+
+**Next steps:**
+- Use `/new-screen` to automate new screens
+- Use `/fix-test` to debug failing tests
+- See `CLAUDE.md` for complete workflow
 
 ## Claude Code Commands
 
-When working with [Claude Code](https://claude.ai/code), use these commands for efficient test automation:
+When working with [Claude Code](https://claude.ai/code), available commands depend on your mode:
 
-- **`/new-screen <screen_name>`** - Create tests for a new screen/feature
-  - Guides through UI exploration with codegen
-  - Creates helper and test files with best practices
-  - Implements P1 tests, documents P2/P3
+**Template Usage Mode** (see commands above in "Two Usage Modes" section)
 
-- **`/fix-test [test_name]`** - Debug and fix failing tests
-  - Reproduces and diagnoses failures
-  - Fixes in helper (not test file)
-  - Ensures all tests pass before commit
+**Framework Development Mode** (see commands above in "Two Usage Modes" section)
 
-- **`/add-coverage <feature_name>`** - Add more test coverage
-  - Reviews existing tests and docs
-  - Implements selected P2/P3 tests as P1
-  - Updates documentation
-
-- **`/review-changes [base_branch]`** - AI code review before PR
-  - Analyzes all changed files
-  - Reviews quality, tests, documentation
-  - Provides actionable feedback
-
-See `CLAUDE.md` for detailed command documentation.
+See `CLAUDE.md` (template mode) or `CLAUDE-DEV.md` (framework mode) for detailed command documentation.
 
 ## Project Structure
 
@@ -266,7 +317,8 @@ See `docs/AI-MODEL-STRATEGY.md` for detailed cost analysis.
 - `playwright.config.ts`: Playwright configuration
 - `tsconfig.json`: TypeScript configuration
 - `.claudeignore`: Files to ignore for Claude Code
-- `CLAUDE.md`: Project instructions for Claude Code
+- `CLAUDE.md`: Project instructions for Claude Code (template usage mode)
+- `CLAUDE-DEV.md`: Framework development guide (framework dev mode only)
 
 ## CI/CD Integration
 

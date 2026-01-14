@@ -1,5 +1,10 @@
 # CLAUDE.md
 
+> **⚠️ FRAMEWORK DEVELOPERS**: If `CLAUDE-DEV.md` exists in this repo, you are working ON the framework source.
+> Read `CLAUDE-DEV.md` for framework development instructions instead of this file.
+>
+> **END USERS**: If `CLAUDE-DEV.md` does not exist, you're using the template. Continue reading this file.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Code Standards

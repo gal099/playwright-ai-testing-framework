@@ -249,5 +249,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Links
 
-- [Repository](https://github.com/gal099/playwright-ai-testing-template)
-- [Issues](https://github.com/gal099/playwright-ai-testing-template/issues)
+- [Repository](https://github.com/gal099/playwright-ai-testing-framework)
+- [Issues](https://github.com/gal099/playwright-ai-testing-framework/issues)

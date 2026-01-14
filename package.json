@@ -1,5 +1,5 @@
 {
-  "name": "playwright-ai-testing-template",
+  "name": "playwright-ai-testing-framework",
   "version": "1.4.1",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,11 @@
   },
   "keywords": [],
   "license": "ISC",
-  "description": "AI-Powered Playwright Testing Framework - Template for E2E testing with Claude AI integration",
+  "description": "AI-Powered Playwright Testing Framework - Development platform and reusable template for E2E testing with Claude AI integration",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gal099/playwright-ai-testing-framework.git"
+  },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
     "@playwright/test": "^1.57.0",
