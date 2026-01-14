@@ -243,12 +243,21 @@ Follow this structured workflow strictly. **Do not skip phases.**
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 
-4. **Commit the changes**:
+4. **Review changes before commit** (MANDATORY):
+   ```bash
+   /review-changes origin/main
+   ```
+   - Address any **Critical** issues (blocking)
+   - Address any **Important** issues (strongly recommended)
+   - Consider **Suggestions** (optional improvements)
+   - Re-run tests after fixing issues: `npm test`
+
+5. **Commit the changes**:
    - Stage relevant files only
    - Verify nothing is being committed that shouldn't be
    - Create the commit
 
-5. **Push the framework branch** (optional, for backup/collaboration):
+6. **Push the framework branch** (optional, for backup/collaboration):
    ```bash
    git push -u origin framework/your-feature-name
    ```

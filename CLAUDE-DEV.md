@@ -230,6 +230,29 @@ Technical Details:
 Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 ```
 
+### Git & Review Protocol (MANDATORY)
+
+**ALWAYS follow this sequence before pushing to remote:**
+
+1. ✅ **Stage changes**: `git add <files>`
+2. ✅ **Run tests**: `npm test` - All must pass
+3. ✅ **Review with AI**: `/review-changes origin/main` (even when on main branch)
+4. ✅ **Fix issues**: Address any Critical/Important findings from review
+5. ✅ **Commit**: Only after review passes
+6. ✅ **Push**: `git push origin <branch>`
+
+**Why review before push (even on main)?**
+- ❌ Direct commits to main = No PR review process
+- ✅ Catch issues before they become public
+- ✅ Validate documentation consistency across files
+- ✅ Ensure code quality and architecture standards
+- ✅ Prevent breaking changes from reaching users
+
+**Exception:**
+Only skip review for trivial changes (typos, single-line README formatting).
+
+**IMPORTANT:** When working directly on main branch, the review is even MORE critical since there's no PR safety net. Always run `/review-changes origin/main` before pushing.
+
 ---
 
 ## 🧪 Testing Framework Changes
