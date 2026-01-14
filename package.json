@@ -12,6 +12,7 @@
     "ai:generate": "ts-node utils/ai-helpers/test-generator.ts",
     "ai:plan-tests": "ts-node utils/ai-helpers/test-case-planner.ts",
     "ai:maintain": "ts-node utils/ai-helpers/test-maintainer.ts",
+    "check-models": "ts-node scripts/check-model-versions.ts",
     "create-template": "ts-node scripts/create-template.ts"
   },
   "keywords": [],

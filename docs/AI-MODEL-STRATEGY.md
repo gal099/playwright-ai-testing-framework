@@ -4,23 +4,27 @@ This document explains how different Claude models are used to optimize costs an
 
 ## Available Models
 
-### Haiku (claude-3-haiku-20240307)
+The framework uses three Claude model families, each optimized for different use cases. Specific model versions are managed in `config/model-versions.ts` and updated as Anthropic releases new versions.
+
+### Haiku (Claude 3 Haiku)
 - **Cost:** Low (~$0.00025 / 1K tokens input, ~$0.00125 / 1K tokens output)
 - **Speed:** Fast
 - **Use:** Simple text tasks and basic analysis
-- **Note:** Claude 3 Haiku (latest stable version)
+- **Best for:** Self-healing selectors, semantic assertions, high-volume operations
 
-### Sonnet (claude-sonnet-4-5-20250929)
+### Sonnet (Claude Sonnet 4.5)
 - **Cost:** Medium (~$0.003 / 1K tokens input, ~$0.015 / 1K tokens output)
 - **Speed:** Moderate
 - **Use:** Balance between quality and cost, AI vision
-- **Note:** Claude Sonnet 4.5 (latest version, upgraded from 3.5)
+- **Best for:** Test generation, visual assertions, layout verification, test planning
 
-### Opus (claude-opus-4-5-20251101)
+### Opus (Claude Opus 4.5)
 - **Cost:** High (~$0.015 / 1K tokens input, ~$0.075 / 1K tokens output)
 - **Speed:** Slower
 - **Use:** Complex cases requiring maximum capability
-- **Note:** Claude Opus 4.5 (latest version, upgraded from 3)
+- **Best for:** Fallback for complex scenarios, rarely used by default
+
+**Model Versions:** See [`config/model-versions.ts`](../config/model-versions.ts) for current model IDs and version management.
 
 ## Feature Assignment
 

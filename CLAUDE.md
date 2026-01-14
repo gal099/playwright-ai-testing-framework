@@ -166,6 +166,9 @@ npm run ai:maintain refactor tests/example.spec.ts --apply
 
 # Update selector across all tests
 npm run ai:maintain update-selector ".old" "[data-testid='new']"
+
+# Check AI model versions (health check)
+npm run check-models
 ```
 
 ## Architecture

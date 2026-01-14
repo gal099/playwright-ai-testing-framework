@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import * as dotenv from 'dotenv';
+import { MODEL_VERSIONS } from './model-versions';
 
 dotenv.config();
 
@@ -15,12 +16,12 @@ export class AIClient {
   private defaultModel: string;
   private defaultMaxTokens: number;
 
-  // Model mappings
-  // Updated to latest available models as of January 2026
+  // Model mappings - imported from centralized config
+  // To update model versions, edit config/model-versions.ts
   private modelMap: Record<AIModel, string> = {
-    haiku: 'claude-3-haiku-20240307', // Claude 3 Haiku (latest stable)
-    sonnet: 'claude-sonnet-4-5-20250929', // Claude Sonnet 4.5 (latest)
-    opus: 'claude-opus-4-5-20251101', // Claude Opus 4.5 (latest)
+    haiku: MODEL_VERSIONS.haiku,
+    sonnet: MODEL_VERSIONS.sonnet,
+    opus: MODEL_VERSIONS.opus,
   };
 
   constructor() {

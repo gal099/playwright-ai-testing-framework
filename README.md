@@ -27,6 +27,8 @@ npm install
 
 ### 2. Configuration
 
+**Environment Variables:**
+
 Copy `.env.example` to `.env` and configure:
 
 ```bash
@@ -37,6 +39,16 @@ Required variables:
 - `APP_URL`: Your application URL
 - `ADMIN_USER`, `ADMIN_PASS`: Admin credentials
 - `ANTHROPIC_API_KEY`: For AI features (optional)
+
+**Claude Code Settings (Optional):**
+
+If using [Claude Code](https://claude.ai/code), copy the settings template:
+
+```bash
+cp .claude/settings.local.json.example .claude/settings.local.json
+```
+
+This configures permissions for Claude Code commands. Modify to match your workflow.
 
 ### 3. Run Tests
 
