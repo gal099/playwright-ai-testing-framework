@@ -26,7 +26,8 @@
       "Bash(gh release:*)",
       "WebSearch",
       "WebFetch(domain:docs.anthropic.com)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npm run check-models:*)"
     ],
     "deny": [],
     "ask": []

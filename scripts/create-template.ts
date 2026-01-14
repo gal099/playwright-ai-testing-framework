@@ -793,21 +793,11 @@ async function copyUserCommands() {
   console.log('📋 Copying user commands to template...\n');
 
   const claudeDir = path.join(ROOT, '.claude');
-  const commandsDevDir = path.join(claudeDir, 'commands-dev');
   const commandsUserDir = path.join(claudeDir, 'commands-user');
   const commandsDir = path.join(claudeDir, 'commands');
+  const reviewChangesFile = path.join(commandsDir, 'review-changes.md');
 
-  // Remove commands-dev (not for end users)
-  try {
-    await fs.rm(commandsDevDir, { recursive: true, force: true });
-    console.log('   ✓ Removed commands-dev/ (framework development only)');
-  } catch (error: any) {
-    if (error.code !== 'ENOENT') {
-      console.log(`   ⚠ Could not remove commands-dev/: ${error.message}`);
-    }
-  }
-
-  // Check if commands-user exists before copying
+  // Check if commands-user exists
   try {
     await fs.access(commandsUserDir);
   } catch (error) {
@@ -816,16 +806,30 @@ async function copyUserCommands() {
     return;
   }
 
-  // Copy commands-user to commands
+  // Check if review-changes.md exists in commands/
+  let reviewChangesContent: string | null = null;
   try {
-    // Remove existing commands directory if it exists
+    reviewChangesContent = await fs.readFile(reviewChangesFile, 'utf-8');
+    console.log('   ✓ Found review-changes.md in commands/ (shared with users)');
+  } catch (error) {
+    console.log('   ⚠ review-changes.md not found in commands/ - will not be included in template');
+  }
+
+  try {
+    // Remove existing commands directory
     await fs.rm(commandsDir, { recursive: true, force: true });
 
     // Copy commands-user to commands
     await fs.cp(commandsUserDir, commandsDir, { recursive: true });
     console.log('   ✓ Copied user commands to .claude/commands/');
 
-    // Remove commands-user source
+    // Also copy review-changes.md if it exists (used by both dev and users)
+    if (reviewChangesContent) {
+      await fs.writeFile(path.join(commandsDir, 'review-changes.md'), reviewChangesContent);
+      console.log('   ✓ Added review-changes.md to template (shared command)');
+    }
+
+    // Remove commands-user source directory
     await fs.rm(commandsUserDir, { recursive: true, force: true });
     console.log('   ✓ Removed commands-user/ source');
   } catch (error: any) {

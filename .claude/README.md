@@ -33,9 +33,31 @@ Modify your local settings to match your workflow preferences.
 
 ## Commands
 
-This directory also contains custom Claude Code commands:
+This directory contains custom Claude Code commands:
 
-- `commands-dev/`: Commands for framework development (working ON the framework)
-- `commands-user/`: Commands for using the framework (working WITH the framework)
+### For Framework Development (Source Repository)
+
+- `commands/`: Framework development commands (improve-framework, fix-framework, review-changes)
+- `commands-user/`: User-facing commands (new-screen, fix-test, add-coverage)
+
+**Structure:**
+```
+.claude/
+├── commands/              # Used during framework development
+│   ├── improve-framework.md
+│   ├── fix-framework.md
+│   └── review-changes.md  # Shared with users
+└── commands-user/         # Copied to template
+    ├── new-screen.md
+    ├── fix-test.md
+    └── add-coverage.md
+```
+
+### For Template Users
+
+When `npm run create-template` is executed:
+- `commands-user/*` → copied to `commands/`
+- `review-changes.md` → also copied to `commands/`
+- Users only see commands relevant to testing their applications
 
 See `CLAUDE.md` in the root directory for command documentation.
