@@ -2,7 +2,7 @@
 
 /**
  * Template Generator Script
- * Converts the SIMA project into a clean, reusable Playwright + AI template
+ * Converts the framework project into a clean, reusable Playwright + AI template
  *
  * Usage: npm run create-template
  */
@@ -11,188 +11,6 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 
 const ROOT = process.cwd();
-
-// Files and directories to DELETE (SIMA-specific)
-const TO_DELETE = [
-  'tests/licencias',
-  'tests/proyectos',
-  'tests/generated',
-  'utils/api/license-helper.ts',
-  'utils/explore-licencias.ts',
-  'utils/explore-proyectos.ts',
-  'utils/inspect-selectors.ts',
-  'docs/LICENCIAS-P2-P3-TESTS.md',
-  'screenshots',
-  'playwright-report',
-  'test-results',
-  '.selector-cache.json',
-  '.env'  // Remove actual env, keep .env.example
-];
-
-async function deleteItems() {
-  console.log('🗑️  Deleting SIMA-specific files...\n');
-
-  for (const item of TO_DELETE) {
-    const fullPath = path.join(ROOT, item);
-    try {
-      const stat = await fs.stat(fullPath);
-      if (stat.isDirectory()) {
-        await fs.rm(fullPath, { recursive: true, force: true });
-        console.log(`   ✓ Deleted directory: ${item}`);
-      } else {
-        await fs.unlink(fullPath);
-        console.log(`   ✓ Deleted file: ${item}`);
-      }
-    } catch (error: any) {
-      if (error.code !== 'ENOENT') {
-        console.log(`   ⚠ Could not delete ${item}: ${error.message}`);
-      }
-    }
-  }
-  console.log();
-}
-
-async function createExampleFiles() {
-  console.log('📝 Creating example files...\n');
-
-  // Create example feature test
-  await fs.mkdir(path.join(ROOT, 'tests/example-feature'), { recursive: true });
-  await fs.writeFile(
-    path.join(ROOT, 'tests/example-feature/example-p1.spec.ts'),
-    `import { test, expect } from '@playwright/test';
-import { ExampleHelper } from '../../utils/api/example-helper';
-
-/**
- * Example Feature - P1 (High Priority) Tests
- *
- * Replace this with your actual feature tests
- */
-
-const exampleHelper = new ExampleHelper();
-
-test.describe('Example Feature - P1 Tests', () => {
-  test.beforeEach(async ({ page }) => {
-    // Setup: Navigate to your app
-    await page.goto(process.env.APP_URL || 'http://localhost:3000');
-  });
-
-  test('TC-EX-001: Basic navigation test', async ({ page }) => {
-    // Example test - replace with your actual tests
-    await expect(page).toHaveTitle(/Your App/);
-  });
-
-  test('TC-EX-002: Example with helper', async ({ page }) => {
-    // Use helpers for common operations
-    await exampleHelper.performAction(page);
-
-    // Add assertions
-    const result = await exampleHelper.verifyState(page);
-    expect(result).toBe(true);
-  });
-});
-`
-  );
-  console.log('   ✓ Created tests/example-feature/example-p1.spec.ts');
-
-  // Create example helper
-  await fs.writeFile(
-    path.join(ROOT, 'utils/api/example-helper.ts'),
-    `import { Page } from '@playwright/test';
-
-/**
- * Example Helper
- * Template for creating feature-specific helpers
- */
-
-export class ExampleHelper {
-  /**
-   * Navigate to a specific feature
-   */
-  async navigateToFeature(page: Page): Promise<void> {
-    await page.click('text=Feature Menu Item');
-    await page.waitForURL('**/feature-path');
-  }
-
-  /**
-   * Perform a common action
-   */
-  async performAction(page: Page, options?: any): Promise<void> {
-    // Implement your action logic here
-    console.log('Performing action...', options);
-  }
-
-  /**
-   * Verify application state
-   */
-  async verifyState(page: Page): Promise<boolean> {
-    // Implement verification logic
-    return true;
-  }
-}
-`
-  );
-  console.log('   ✓ Created utils/api/example-helper.ts');
-
-  // Create example P2/P3 documentation
-  await fs.writeFile(
-    path.join(ROOT, 'docs/EXAMPLE-P2-P3-TESTS.md'),
-    `# Example Feature - P2 and P3 Tests Documentation
-
-This document contains **P2 (Medium Priority)** and **P3 (Low Priority)** test specifications for the Example Feature.
-
-These tests are **not implemented** to avoid test bloat. Implement them when explicitly needed.
-
-## P2 Tests (Medium Priority)
-
-### TC-EX-100: Example Medium Priority Test
-
-**Priority**: P2 (Media)
-
-**Preconditions**:
-- User is authenticated
-- Feature is accessible
-
-**Steps**:
-1. Navigate to feature
-2. Perform action X
-3. Verify result Y
-
-**Expected Result**:
-- Action succeeds
-- Result is displayed correctly
-
----
-
-## P3 Tests (Low Priority)
-
-### TC-EX-200: Example Low Priority Test
-
-**Priority**: P3 (Baja)
-
-**Preconditions**:
-- Edge case scenario
-
-**Steps**:
-1. Setup edge case
-2. Perform action
-3. Verify handling
-
-**Expected Result**:
-- Edge case handled gracefully
-
----
-
-## Implementation Notes
-
-When implementing these tests:
-1. Follow the helper-based pattern from P1 tests
-2. Use AI features judiciously (cost consideration)
-3. Update this documentation if requirements change
-`
-  );
-  console.log('   ✓ Created docs/EXAMPLE-P2-P3-TESTS.md');
-  console.log();
-}
 
 async function updatePackageJson() {
   console.log('📦 Updating package.json...\n');
@@ -853,10 +671,8 @@ async function main() {
   }
 
   try {
-    await deleteItems();
     await removeFrameworkDevFiles();
     await copyUserCommands();
-    await createExampleFiles();
     await updatePackageJson();
     await updateEnvExample();
     await updateReadme();
