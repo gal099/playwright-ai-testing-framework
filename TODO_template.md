@@ -10,43 +10,66 @@ This file tracks improvements, bugs, and changes discovered while working on pro
 
 ## ✨ Enhancements
 
+### [ENHANCE-006] Fix /review-changes Command to Use Agent
+**Date:** 2026-01-14
+**Priority:** High
+**Status:** Pending
+
+**Goal:**
+Fix `/review-changes` command to automatically launch a Task agent instead of just showing documentation.
+
+**Problem:**
+Currently `/review-changes` only displays instructions but doesn't execute the review. User must wait indefinitely without feedback.
+
+**Solution:**
+Update `.claude/commands/review-changes.md` to use Task tool with general-purpose agent:
+- Compare branches automatically
+- Read changed files
+- Analyze code quality, bugs, security, testing
+- Generate structured report with verdict
+
+**Benefits:**
+- 7x cheaper than doing review in main conversation (~$0.25 vs ~$1.80)
+- Isolated context (doesn't pollute main conversation)
+- Automated execution (no waiting for me to do it manually)
+- Progress visibility
+
+**Reference:**
+- Official command example: `~/.claude/plugins/.../pr-review-toolkit/commands/review-pr.md`
+- Uses Task tool for code review
+
+---
+
 ### [ENHANCE-002] Semantic Versioning Reminders
 **Date:** 2026-01-14
 **Priority:** Medium
-**Status:** Pending
+**Status:** ✅ IMPLEMENTED
 
 **Goal:**
 Add clear reminders about semantic versioning in framework development docs.
 
-**Where:**
-- `CLAUDE-DEV.md` - Framework development guide
-- `.claude/commands/` - Framework command files
+**What was implemented:**
+Added comprehensive "Semantic Versioning Reminder" section to `CLAUDE-DEV.md` with:
+- Version types (PATCH/MINOR/MAJOR) with examples
+- Version bump checklist (7 steps)
+- Git tagging workflow
+- GitHub Release creation workflow
+- Reference example from v1.4.2 release
 
-**Content:**
-```markdown
-## Semantic Versioning Reminder
+Updated framework commands (`.claude/commands/`):
+- `improve-framework.md` - Added versioning steps in Phase 5
+- `fix-framework.md` - Added versioning steps in Phase 5
 
-Before committing framework changes:
-
-- **PATCH (1.x.Y)**: Bug fixes, no new features
-  - Example: Fix broken selector, fix typo in docs
-
-- **MINOR (1.X.0)**: New features, backwards compatible
-  - Example: New AI helper, new command, new script
-
-- **MAJOR (X.0.0)**: Breaking changes (rare)
-  - Example: Change API, remove features, incompatible changes
-
-**Checklist:**
-1. Update `package.json` version
-2. Add entry to `CHANGELOG.md`
-3. Update `README.md` version badge
-4. Ask user before committing/pushing
-```
+**Location:**
+- `CLAUDE-DEV.md` - Section "Semantic Versioning Reminder" (lines 258-401)
+- `.claude/commands/improve-framework.md` - Phase 5 steps 3-4, 8
+- `.claude/commands/fix-framework.md` - Phase 5 steps 3-4, 8
 
 **Benefit:**
 - Consistent versioning across releases
 - Clear guidance for framework developers
+- Automated workflow for tagging and releases
+- Reference example for future releases
 
 ---
 

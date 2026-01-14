@@ -255,6 +255,151 @@ Only skip review for trivial changes (typos, single-line README formatting).
 
 ---
 
+## 📦 Semantic Versioning Reminder
+
+**ALWAYS follow semantic versioning when releasing framework changes.**
+
+Before committing framework changes, determine the version bump needed:
+
+### Version Types
+
+- **PATCH (1.x.Y)**: Bug fixes, no new features, backwards compatible
+  - Examples:
+    - Fix broken selector in self-healing
+    - Fix typo in documentation
+    - Fix error handling in helper
+    - Performance optimization without API changes
+
+- **MINOR (1.X.0)**: New features, backwards compatible
+  - Examples:
+    - New AI helper (OTP extraction, image comparison)
+    - New command (/new-screen, /fix-test)
+    - New npm script (ai:plan-tests)
+    - New capability added to existing helper
+    - Major documentation additions
+
+- **MAJOR (X.0.0)**: Breaking changes (rare)
+  - Examples:
+    - Change public API signatures
+    - Remove features or helpers
+    - Incompatible changes to fixtures
+    - Require new environment variables
+    - Change helper method signatures
+
+### Version Bump Checklist
+
+When releasing a new framework version:
+
+1. **Update version in `package.json`**:
+   ```bash
+   # Edit package.json
+   vim package.json
+   # Change "version": "1.4.2" to "1.5.0" (for example)
+   ```
+
+2. **Update version badge in `README.md`**:
+   ```bash
+   # Edit README.md
+   vim README.md
+   # Change: > **Version 1.4.2** | [Changelog](CHANGELOG.md)
+   # To:     > **Version 1.5.0** | [Changelog](CHANGELOG.md)
+   ```
+
+3. **Add entry to `CHANGELOG.md`**:
+   ```bash
+   # Edit CHANGELOG.md
+   vim CHANGELOG.md
+   # Add new version section with:
+   # - Date
+   # - Added/Changed/Fixed/Removed sections
+   # - Breaking changes (if MAJOR)
+   # - Migration guide (if needed)
+   ```
+
+4. **Commit the version bump**:
+   ```bash
+   git add package.json README.md CHANGELOG.md
+   git commit -m "chore: bump version to 1.5.0"
+   ```
+
+5. **Create annotated git tag**:
+   ```bash
+   git tag -a v1.5.0 -m "Release v1.5.0: Brief description of main changes"
+   ```
+
+6. **Push commits and tag**:
+   ```bash
+   git push origin main
+   git push origin v1.5.0
+   ```
+
+7. **Create GitHub Release** (optional but recommended):
+   ```bash
+   # Create release notes file
+   cat > /tmp/release-notes.md << 'EOF'
+   ## What's New
+
+   - Feature 1
+   - Feature 2
+
+   ## Bug Fixes
+
+   - Fix 1
+   - Fix 2
+
+   ## Documentation
+
+   - Doc update 1
+
+   See [CHANGELOG.md](https://github.com/gal099/playwright-ai-testing-framework/blob/main/CHANGELOG.md) for complete details.
+   EOF
+
+   # Create GitHub release
+   gh release create v1.5.0 \
+     --title "v1.5.0 - Brief Title" \
+     --notes-file /tmp/release-notes.md
+   ```
+
+### When to Version Bump
+
+- **Immediately after merging** a framework feature or fix to main
+- **Before sharing** the template with others
+- **When documenting** completed work in CHANGELOG.md
+
+### Reference Example: v1.4.2
+
+Successful release workflow from previous session:
+
+```bash
+# Step 1: Update version files
+vim package.json  # 1.4.1 → 1.4.2
+vim README.md     # Update version badge
+vim CHANGELOG.md  # Add v1.4.2 entry with all changes
+
+# Step 2: Commit version bump
+git add package.json README.md CHANGELOG.md
+git commit -m "chore: bump version to 1.4.2"
+
+# Step 3: Create annotated tag
+git tag -a v1.4.2 -m "Release v1.4.2: Repository rename and dual-mode documentation
+
+- Repository renamed to playwright-ai-testing-framework
+- Added comprehensive dual-mode documentation
+- Implemented mandatory review protocol
+- Fixed git tracking issues"
+
+# Step 4: Push everything
+git push origin main
+git push origin v1.4.2
+
+# Step 5: Create GitHub release
+gh release create v1.4.2 \
+  --title "v1.4.2 - Repository Rename & Dual-Mode Documentation" \
+  --notes-file /tmp/release-notes.md
+```
+
+---
+
 ## 🧪 Testing Framework Changes
 
 When you modify framework code, test it properly:

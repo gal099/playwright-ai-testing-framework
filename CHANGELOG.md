@@ -5,6 +5,61 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-01-14
+
+### Added
+
+- **Semantic Versioning Reminder**: Comprehensive guide in CLAUDE-DEV.md (ENHANCE-002)
+  - Version types (PATCH/MINOR/MAJOR) with clear examples
+  - 7-step version bump checklist:
+    1. Update package.json version
+    2. Update README.md version badge
+    3. Add CHANGELOG.md entry
+    4. Commit version bump
+    5. Create annotated git tag
+    6. Push commits and tag
+    7. Create GitHub Release
+  - Reference example: v1.4.2 successful release workflow
+  - Integrated into framework commands (/improve-framework, /fix-framework)
+  - Location: CLAUDE-DEV.md section "Semantic Versioning Reminder"
+
+- **Test Configuration Improvement**: Separated stable from unstable tests
+  - Added `testIgnore` in playwright.config.ts to skip unstable example tests
+  - Ignores tests depending on external sites (playwright.dev) and user apps (localhost:3000)
+  - New npm script: `npm run test:examples` to run ALL tests including examples
+  - Keeps stable tests: basic-example.spec.ts, otp-auth-example.spec.ts (auto-skipped if no config)
+  - Rationale: Framework tests should not fail due to external site changes
+
+- **ENHANCE-006**: Added to TODO_template.md
+  - Fix /review-changes command to use Task agent automatically
+  - Priority: High
+  - Benefits: 7x cheaper (~$0.25 vs ~$1.80), isolated context, automated execution
+
+### Changed
+
+- **Framework Commands Updated**: Added versioning steps to Phase 5
+  - `.claude/commands/improve-framework.md`: Steps 3-4 (version determination), step 8 (tagging/release)
+  - `.claude/commands/fix-framework.md`: Steps 3-4 (version determination), step 8 (tagging/release)
+  - Both commands now ask user for version bump type before committing
+
+- **TODO_template.md**: Updated status
+  - ENHANCE-002: Marked as ✅ IMPLEMENTED
+  - ENHANCE-006: Added as Pending (fix /review-changes)
+
+### Documentation
+
+- **CLAUDE-DEV.md**: New "Semantic Versioning Reminder" section (145 lines)
+  - Comprehensive guide for framework developers
+  - When to bump PATCH vs MINOR vs MAJOR
+  - Step-by-step workflow with code examples
+  - GitHub Release creation workflow
+- **playwright.config.ts**: Added comments explaining test ignore strategy
+- **package.json**: Documented new `test:examples` script
+
+**Benefit:** Framework developers now have clear guidance on versioning, reducing inconsistency and missed steps in release workflow.
+
+---
+
 ## [1.4.2] - 2026-01-14
 
 ### Changed

@@ -200,7 +200,26 @@ Follow this structured workflow strictly. **Do not skip phases.**
    ```
    All tests must pass. If any fail, return to Phase 4.
 
-3. **Create a descriptive commit message**:
+3. **Determine version bump** (see CLAUDE-DEV.md "Semantic Versioning Reminder"):
+   - **PATCH (1.x.Y)**: Bug fixes only, no new features
+   - **MINOR (1.X.0)**: New features, backwards compatible (most framework improvements)
+   - **MAJOR (X.0.0)**: Breaking changes (rare)
+
+   Ask user which version bump is appropriate for this feature.
+
+4. **Update version files** if releasing a new version:
+   ```bash
+   # Update package.json version
+   vim package.json
+
+   # Update README.md version badge
+   vim README.md
+
+   # Add entry to CHANGELOG.md with details
+   vim CHANGELOG.md
+   ```
+
+5. **Create a descriptive commit message**:
    ```
    framework: add [brief one-line description]
 
@@ -243,7 +262,7 @@ Follow this structured workflow strictly. **Do not skip phases.**
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 
-4. **Review changes before commit** (MANDATORY):
+6. **Review changes before commit** (MANDATORY):
    ```bash
    /review-changes origin/main
    ```
@@ -252,12 +271,29 @@ Follow this structured workflow strictly. **Do not skip phases.**
    - Consider **Suggestions** (optional improvements)
    - Re-run tests after fixing issues: `npm test`
 
-5. **Commit the changes**:
-   - Stage relevant files only
+7. **Commit the changes**:
+   - Stage relevant files (including version files if updated)
    - Verify nothing is being committed that shouldn't be
    - Create the commit
 
-6. **Push the framework branch** (optional, for backup/collaboration):
+8. **Create git tag and GitHub release** (if version was bumped):
+   ```bash
+   # Create annotated tag
+   git tag -a vX.X.X -m "Release vX.X.X: Brief description"
+
+   # Push commits and tag
+   git push origin main
+   git push origin vX.X.X
+
+   # Create GitHub release (optional but recommended)
+   gh release create vX.X.X \
+     --title "vX.X.X - Brief Title" \
+     --notes-file /tmp/release-notes.md
+   ```
+
+   See CLAUDE-DEV.md "Semantic Versioning Reminder" for detailed workflow.
+
+9. **Push the framework branch** (if not releasing immediately):
    ```bash
    git push -u origin framework/your-feature-name
    ```
