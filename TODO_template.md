@@ -99,25 +99,40 @@ Added "Git & Review Protocol (MANDATORY)" section to `CLAUDE-DEV.md` with:
 
 ---
 
-### [ENHANCE-004] Update create-template.ts
+### [ENHANCE-004] Clean create-template.ts from SIMA references
 **Date:** 2026-01-14
 **Priority:** Medium
-**Status:** Pending (depends on FIX-002)
+**Status:** ✅ IMPLEMENTED
 
 **Goal:**
-Update template generation script to correctly filter commands.
+Remove SIMA-specific references and simplify template generation script.
 
-**Details:**
-- Ensure only user-facing commands go to template
-- Exclude framework development commands
-- Handle new command structure (after FIX-002 is resolved)
+**What was implemented:**
+1. Removed all SIMA references from comments and code
+2. Eliminated TO_DELETE array with SIMA-specific file paths
+3. Removed deleteItems() function (no longer needed)
+4. Removed createExampleFiles() function (files already exist in repo)
+5. Updated .gitignore to ignore .selector-cache.json in framework source
+
+**Impact:**
+- Script reduced from 877 to 694 lines (-183 lines, -21%)
+- Now truly generic and reusable
+- No more SIMA-specific logic
+- Users generate their own selector cache when working WITH template
+
+**Testing:**
+- TypeScript compilation verified
+- Framework tests pass: 3/3
+- No SIMA references remain
 
 **Location:**
-- `scripts/create-template.ts`
+- `scripts/create-template.ts` - Complete cleanup
+- `.gitignore` - Updated to ignore .selector-cache.json
 
 **Benefit:**
-- Clean template for end users
-- No confusion with framework dev commands
+- Truly reusable template generation script
+- No confusion about SIMA project
+- Simplified maintenance
 
 ---
 
