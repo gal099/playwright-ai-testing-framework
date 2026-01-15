@@ -584,7 +584,7 @@ async function removeFrameworkDevFiles() {
   const devFiles = [
     'CLAUDE-DEV.md',
     'new_ideas',
-    'TODO_template.md'
+    'TODO_framework.md'
   ];
 
   for (const file of devFiles) {

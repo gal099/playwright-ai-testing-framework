@@ -34,7 +34,7 @@ If you cloned this repository directly and see `CLAUDE-DEV.md`, you're in **fram
 
 **Key files:**
 - `CLAUDE-DEV.md` - Framework development guide (read this)
-- `TODO_template.md` - Framework improvements tracking
+- `TODO_framework.md` - Framework improvements tracking
 - `.claude/commands/` - Framework development commands (`/improve-framework`, `/fix-framework`)
 
 **Commands available:**
@@ -84,7 +84,7 @@ npm install
 # Open CLAUDE-DEV.md for detailed instructions
 
 # 4. Check pending framework tasks
-# See TODO_template.md for improvements tracking
+# See TODO_framework.md for improvements tracking
 
 # 5. (Optional) Configure .env for testing AI features
 cp .env.example .env

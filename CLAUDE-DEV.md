@@ -664,7 +664,7 @@ The script removes:
 - `.claude/commands-dev/` (framework dev commands)
 - `CLAUDE-DEV.md` (this file)
 - `new_ideas/` (development notes)
-- `TODO_template.md`
+- `TODO_framework.md`
 
 ### What Gets Kept
 
