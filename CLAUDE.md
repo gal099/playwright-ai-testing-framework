@@ -160,6 +160,9 @@ npm run ai:generate <url> [description]
 # Generate test DOCUMENTATION from screenshot (plan before automating)
 npm run ai:plan-tests <url-or-screenshot> <screen-name>
 
+# Interactively explore site and generate test docs for multiple pages
+npm run ai:explore <start-url>
+
 # Analyze test suite quality
 npm run ai:maintain analyze
 
@@ -216,6 +219,8 @@ P2 and P3 tests are documented but not implemented to avoid test bloat. Implemen
 
 **AI Helpers** (`utils/ai-helpers/`):
 - `test-generator.ts`: Generate tests from screenshots using AI vision
+- `test-case-planner.ts`: Generate test documentation from screenshots
+- `site-explorer.ts`: Interactively explore sites and generate test docs
 - `ai-assertions.ts`: Intelligent assertions (visual, semantic, layout, a11y)
 - `test-maintainer.ts`: Analyze and refactor test code
 - `otp-extractor.ts`: AI-powered OTP extraction from emails
@@ -437,7 +442,8 @@ The framework is **hybrid** - works with or without AI features:
 
 - **Traditional Playwright**: Always available, no API key needed
 - **AI Features**: Optional, require `ANTHROPIC_API_KEY`
-  - Test case planning: `npm run ai:plan-tests` (NEW)
+  - Test case planning: `npm run ai:plan-tests`
+  - Interactive site explorer: `npm run ai:explore` (NEW)
   - Test generation: `npm run ai:generate`
   - Self-healing: `import { test } from './fixtures/ai-fixtures'`
   - AI assertions: Use `aiAssertions` fixture
@@ -496,3 +502,82 @@ npm run ai:plan-tests http://localhost:3000/login login
 **Cost:** ~$0.05-0.15 per analysis (same as test generation)
 
 See `docs/EXAMPLE-TEST-CASE-PLANNING.md` for detailed example output.
+
+### Interactive Site Explorer (NEW)
+
+**Problem:** You need to generate test documentation for multiple pages, but manually typing each URL is tedious and you don't know all URLs upfront.
+
+**Solution:** Use Interactive Site Explorer to incrementally crawl and document test cases for discovered pages.
+
+```bash
+# Start exploring from a URL
+npm run ai:explore http://localhost:3000/login
+
+# The tool will:
+# 1. Analyze the page and generate test cases
+# 2. Discover navigation links (buttons, menu items, etc.)
+# 3. Let you choose which page to explore next
+# 4. Repeat until you quit
+```
+
+**What it does:**
+1. Analyzes current page using Test Case Planner
+2. Discovers navigation links automatically
+3. Uses AI to filter out non-navigation links (tooltips, modals, etc.)
+4. Shows you available pages and lets you choose what to explore next
+5. Saves exploration progress to `.exploration-map.json`
+6. Generates test case docs for each explored page
+
+**Output:**
+- `docs/{PAGE}-TEST-CASES.md` for each explored page
+- `.exploration-map.json` with exploration state (git-ignored)
+
+**Benefits:**
+- ✅ No need to know all URLs beforehand
+- ✅ Discover site navigation structure as you go
+- ✅ User controls which pages to document (no wasted analysis)
+- ✅ Persistent state allows pausing and resuming
+- ✅ Automatic URL deduplication (same page not analyzed twice)
+- ✅ Cost-efficient: only ~$0.001 extra per page for link filtering
+
+**Example Session:**
+```bash
+$ npm run ai:explore http://localhost:3000/login
+
+📋 Analyzing: http://localhost:3000/login
+✅ Test cases generated: docs/LOGIN-TEST-CASES.md
+🔗 Found 5 navigation link(s)
+
+🔗 Available navigation links:
+  [1] http://localhost:3000/dashboard
+      button: "Sign In"
+  [2] http://localhost:3000/register
+      link: "Create account"
+  [3] http://localhost:3000/forgot-password
+      link: "Forgot password?"
+
+? Which page to explore next? (Enter number or "quit"): 1
+
+📋 Analyzing: http://localhost:3000/dashboard
+...
+```
+
+**Cost:** ~$0.05-0.16 per page
+- Test case generation: ~$0.05-0.15 (Sonnet)
+- Link filtering: ~$0.001 (Haiku)
+
+**Workflow:**
+```bash
+# Step 1: Start interactive exploration
+npm run ai:explore http://localhost:3000/login
+
+# Step 2: Follow prompts to explore pages
+# Type numbers to navigate, "quit" to stop
+
+# Step 3: Review generated test docs in docs/
+# Output: docs/LOGIN-TEST-CASES.md, docs/DASHBOARD-TEST-CASES.md, etc.
+
+# Step 4: Use /new-screen to automate P1 tests
+/new-screen login
+/new-screen dashboard
+```
