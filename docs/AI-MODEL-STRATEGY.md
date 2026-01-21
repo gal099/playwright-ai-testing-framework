@@ -70,6 +70,38 @@ maxTokens: 4096
 - Complete test documentation (P1 automated, P2/P3 documented)
 - Team can review test cases before code is written
 
+### Interactive Site Explorer → **Sonnet + Haiku**
+```typescript
+// utils/ai-helpers/site-explorer.ts
+// Test case generation: Sonnet (via TestCasePlanner)
+// Link filtering: Haiku
+model: 'haiku' // for link filtering only
+maxTokens: 2048
+```
+**Reason:** Combines TestCasePlanner (Sonnet) for test case generation with Haiku for cheap link filtering. The link filtering task is simple (categorizing links as navigation vs. non-navigation) so Haiku is sufficient.
+
+**Use Case:** Incrementally explore a website and generate test case documentation for multiple pages. Ideal for:
+- Discovering site structure without knowing all URLs upfront
+- Batch generation of test cases across multiple pages
+- Understanding application navigation flow
+- Interactive exploration with user control over which pages to analyze
+
+**Estimated cost per page:** ~$0.05-0.16
+- Test case generation: ~$0.05-0.15 (Sonnet, reuses TestCasePlanner)
+- Link filtering: ~$0.001 (Haiku, simple categorization task)
+
+**Example session costs:**
+- Small site (5 pages): ~$0.25-0.80
+- Medium site (15 pages): ~$0.75-2.40
+- Large site (50 pages): ~$2.50-8.00
+
+**Benefits:**
+- No need to manually discover and type each URL
+- Cost-efficient (~2% overhead for link filtering vs manual approach)
+- User controls exploration (no wasted analysis on irrelevant pages)
+- Persistent exploration state allows pausing and resuming
+- Automatic URL deduplication prevents re-analyzing same pages
+
 ### AI Assertions
 
 #### Visual State → **Sonnet**

@@ -5,6 +5,58 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-01-21
+
+### Added
+
+- **Interactive Site Explorer**: New AI-powered tool for incremental test case discovery
+  - **Command**: `npm run ai:explore <url>`
+  - **Core Implementation**: `utils/ai-helpers/site-explorer.ts` (658 lines)
+  - **CLI Interface**: `scripts/explore-site.ts` (160 lines)
+  - **Features**:
+    - Interactive page-by-page exploration with user control
+    - Automatic navigation link discovery using Playwright
+    - AI-powered link filtering to show only significant navigation (Haiku model)
+    - Persistent exploration state saved to `.exploration-map.json`
+    - URL deduplication prevents re-analyzing same pages
+    - Integration with existing TestCasePlanner for test case generation
+    - Graceful error handling and recovery
+  - **Cost**: ~$0.05-0.16 per page analyzed
+    - Test case generation: ~$0.05-0.15 (Sonnet via TestCasePlanner)
+    - Link filtering: ~$0.001 (Haiku for simple categorization)
+  - **Output**:
+    - Individual test case docs per page: `docs/{PAGE}-TEST-CASES.md`
+    - Exploration map: `.exploration-map.json` (git-ignored)
+    - Summary report at completion
+  - **Example Usage**:
+    ```bash
+    npm run ai:explore http://localhost:3000/login
+    ```
+  - **Benefits**:
+    - No need to manually discover and type each URL
+    - User controls exploration (no wasted analysis)
+    - Only ~2% cost overhead vs manual approach
+    - Discover site navigation structure interactively
+
+### Documentation
+
+- **Feature Specification**: `docs/FEATURE-SITE-EXPLORER.md` (460 lines) - Complete specification including future releases
+- **Project Overview**: `docs/PROJECT-OVERVIEW.md` (443 lines) - New consolidated project reference document
+- **AI Model Strategy**: Updated `docs/AI-MODEL-STRATEGY.md` with cost analysis for site explorer
+- **User Guide**: Updated `CLAUDE.md` with interactive site explorer documentation and examples
+- **Example Test**: `tests/examples/site-explorer-example.spec.ts` demonstrating programmatic usage
+
+### Changed
+
+- **Configuration**:
+  - `package.json`: Added `"ai:explore"` npm script
+  - `.gitignore`: Added `.exploration-map.json`
+  - `.claudeignore`: Added `.exploration-map.json`
+
+**Impact:** Major new feature for multi-page test documentation generation. Backwards compatible - existing functionality unchanged.
+
+---
+
 ## [1.5.1] - 2026-01-14
 
 ### Fixed
