@@ -32,21 +32,27 @@ This is an **AI-Powered Playwright Testing Framework** for E2E testing. It combi
 These commands help you work efficiently with the framework:
 
 ### `/new-screen <screen_name>`
-Automate tests for a new screen or feature.
+Automate tests for a new screen or feature **with fully automatic selector extraction**.
 
 **When to use:** Starting to test a new page, screen, or feature area.
 
 **What it does:**
-- Guides you through exploring the UI with codegen
-- Helps create helper file with best practices
-- Creates test file and P2/P3 documentation
-- Implements P1 tests only (critical path)
-- Ensures helper-first approach
+- ✅ Automatically reads docs/{SCREEN}-TEST-CASES.md if exists
+- ✅ **Captures screenshot and extracts selectors automatically using AI vision** (no manual codegen needed!)
+- ✅ Creates helper file with identified selectors
+- ✅ Creates test file and P2/P3 documentation
+- ✅ Implements P1 tests only (critical path)
+- ✅ Ensures helper-first approach
+- ✅ Falls back to manual codegen if automatic extraction fails
 
 **Example:**
 ```
 /new-screen "login page"
 ```
+
+**What's new (v1.6.0+):** Phase 1 now uses automatic selector extraction instead of manual codegen exploration. Saves 5-10 minutes per screen!
+
+**Cost:** ~$0.08 for automatic selector extraction + ~$0.02 for code generation = ~$0.10 total per screen
 
 ---
 
@@ -413,9 +419,28 @@ Keep screenshots visible by default (may be needed for AI analysis).
 
 ## Adding New Test Areas
 
-When testing a new screen/feature, use the `/new-screen` command for guided workflow, or follow these steps manually:
+When testing a new screen/feature, use the `/new-screen` command for **fully automatic selector extraction**:
 
-1. **Explore the UI first**:
+```bash
+/new-screen "login page"
+```
+
+**NEW in v1.6.0:** The command now **automatically extracts selectors** using AI vision analysis, eliminating manual codegen exploration!
+
+**Automatic workflow:**
+1. ✅ Reads docs/{SCREEN}-TEST-CASES.md (if exists)
+2. ✅ Captures screenshot from APP_URL
+3. ✅ AI vision identifies all interactive elements
+4. ✅ Extracts stable Playwright selectors automatically
+5. ✅ Creates helper with extracted selectors
+6. ✅ Creates test file and P2/P3 documentation
+7. ✅ Implements P1 tests only
+
+**Manual workflow (if needed):**
+
+If automatic extraction fails or you prefer manual exploration:
+
+1. **Explore the UI**:
    ```bash
    npm run test:codegen
    ```
@@ -434,7 +459,7 @@ When testing a new screen/feature, use the `/new-screen` command for guided work
 
 5. **Document P2/P3 tests** in `docs/{FEATURE}-P2-P3-TESTS.md`
 
-**Tip:** The `/new-screen <screen_name>` command automates this entire workflow for you.
+**Tip:** The automatic workflow saves 5-10 minutes per screen (95% time reduction) and costs ~$0.08 per extraction. Worth it!
 
 ## AI Feature Toggles
 

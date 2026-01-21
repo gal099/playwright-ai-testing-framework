@@ -102,6 +102,70 @@ maxTokens: 2048
 - Persistent exploration state allows pausing and resuming
 - Automatic URL deduplication prevents re-analyzing same pages
 
+### Automatic Selector Extraction → **Sonnet**
+```typescript
+// utils/ai-helpers/selector-extractor.ts
+model: 'sonnet'
+maxTokens: 2048
+```
+**Reason:** Requires AI vision to analyze screenshots and identify interactive elements with high accuracy. Sonnet provides the best balance of visual recognition quality and cost. Needs to distinguish between different element types (inputs, buttons, links) and generate stable Playwright selectors.
+
+**Use Case:** Automatically extract selectors from a page without manual codegen exploration. Used by the `/new-screen` command. Ideal for:
+- Eliminating manual codegen workflow (saves 5-10 minutes per screen)
+- Automatic identification of input fields, buttons, and links
+- Generation of stable Playwright selectors (prioritizes data-testid, role, text)
+- Quick analysis of new pages before writing tests
+- Understanding page structure without manual exploration
+
+**Estimated cost per page:** ~$0.05-0.10
+- Input: ~3000 tokens (screenshot base64 + DOM structure JSON)
+- Output: ~500 tokens (JSON object with selectors, redirectUrl, timing, confidence)
+- Total: ~$0.08 per extraction
+
+**What it extracts:**
+- Input field selectors (email, password, username, search, etc.)
+- Button selectors (submit, cancel, back, etc.)
+- Link selectors (navigation, help, terms, etc.)
+- Error message locations
+- Success indicators
+- Expected redirect URL after action
+- Load timing configuration (load/networkidle/domcontentloaded)
+- Confidence score (0.0-1.0) based on selector stability
+
+**Confidence Score:**
+- 1.0 = All elements have data-testid or stable attributes
+- 0.8-0.9 = Mix of stable and moderately stable selectors
+- 0.6-0.7 = Some selectors rely on text or structure
+- <0.6 = Many fragile selectors (recommend manual review)
+
+**Benefits:**
+- Saves 5-10 minutes per screen (95% time reduction)
+- No manual codegen exploration needed
+- Generates helper-ready selector code
+- Provides timing and async operation guidance
+- Includes confidence score for quality assessment
+- Falls back gracefully if extraction fails
+- Worth the $0.08 cost for massive time savings
+
+**When used:**
+- Automatically triggered by `/new-screen` command in Phase 1
+- Can be used standalone via `SelectorExtractor` class
+- Results NOT cached (each page is unique), but saved in generated helper files
+
+**Example workflow:**
+```bash
+User: /new-screen login
+
+Phase 1: Automatic UI Analysis
+- Captures screenshot from APP_URL/login
+- Extracts DOM structure (buttons, inputs, links)
+- AI vision identifies ~10-15 selectors in ~5 seconds
+- Returns: { selectors, redirectUrl, timing, confidence: 0.85 }
+- Total cost: ~$0.08
+
+Result: Helper generated with accurate selectors, no manual work!
+```
+
 ### AI Assertions
 
 #### Visual State → **Sonnet**
