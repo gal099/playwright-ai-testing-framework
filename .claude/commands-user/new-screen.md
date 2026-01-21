@@ -46,9 +46,9 @@ Follow this structured workflow strictly. **Do not skip phases.**
 
 ---
 
-## Phase 1: Explore UI (READ-ONLY - No Code Yet!)
+## Phase 1: Automatic UI Analysis
 
-**Objective:** Thoroughly understand the screen/feature before writing tests.
+**Objective:** Automatically analyze the screen and extract selectors using AI vision (no manual exploration needed!).
 
 1. **Think hard** about the testing requirements:
    - What is the main purpose of this screen?
@@ -57,29 +57,128 @@ Follow this structured workflow strictly. **Do not skip phases.**
    - What are the acceptance criteria?
    - Are there any ambiguities that need clarification?
 
-2. **Launch Playwright Codegen** to explore the UI:
+2. **Check if test case documentation exists**:
+   - Look for `docs/{SCREEN}-TEST-CASES.md` (where SCREEN is uppercase screen name)
+   - If exists, read it to understand expected P1 test scenarios
+   - Extract test case IDs and priorities
+   - Use this to guide selector extraction focus
+
+3. **Read APP_URL from environment**:
+   - Check `.env` file for `APP_URL` configuration
+   - Determine the page path (e.g., `/login`, `/register`, `/dashboard`)
+   - Full URL will be: `{APP_URL}{path}`
+   - If path is unclear, ask user for the specific URL path
+
+4. **Automatically extract selectors using AI vision**:
+
+   Now I'll use the SelectorExtractor utility to automatically analyze the page and identify interactive elements.
+
+   <tool>
+     <name>Bash</name>
+     <params>
+       <command>cat .env | grep APP_URL</command>
+       <description>Read APP_URL from environment</description>
+     </params>
+   </tool>
+
+   Then, I'll create a small script to extract selectors:
+
+   <tool>
+     <name>Write</name>
+     <params>
+       <file_path>/tmp/extract-selectors.ts</file_path>
+       <content>
+import { SelectorExtractor } from './utils/ai-helpers/selector-extractor';
+
+async function main() {
+  const extractor = new SelectorExtractor();
+
+  // Get URL from command line args or use default
+  const url = process.argv[2] || process.env.APP_URL;
+  const pageType = process.argv[3] || 'page';
+
+  console.log(`\n🔍 Analyzing ${pageType} at: ${url}\n`);
+
+  try {
+    const result = await extractor.extractSelectors(url, pageType, {
+      waitTime: 2000,
+      fullPage: true,
+    });
+
+    console.log('\n✅ Selector Extraction Results:\n');
+    console.log(`Confidence: ${result.confidence}`);
+    console.log(`Selectors found: ${Object.keys(result.selectors).length}`);
+    console.log(`Expected redirect: ${result.redirectUrl}`);
+    console.log(`Load timing: ${result.timing.loadTime}`);
+    console.log(`Async operations: ${result.timing.asyncOperations}\n`);
+
+    console.log('📋 Identified Selectors:');
+    Object.entries(result.selectors).forEach(([name, selector]) => {
+      console.log(`  ${name}: "${selector}"`);
+    });
+
+    if (result.errorSelectors.length > 0) {
+      console.log('\n⚠️  Error Selectors:');
+      result.errorSelectors.forEach(sel => console.log(`  "${sel}"`));
+    }
+
+    // Output JSON for programmatic use
+    console.log('\n📦 JSON Output:');
+    console.log(JSON.stringify(result, null, 2));
+
+  } catch (error) {
+    console.error('\n❌ Extraction failed:', error.message);
+    console.error('\n💡 Fallback Options:');
+    console.error('   1. Verify URL is correct and accessible');
+    console.error('   2. Check if page requires authentication');
+    console.error('   3. Use manual codegen: npm run test:codegen');
+    process.exit(1);
+  }
+}
+
+main();
+       </content>
+     </params>
+   </tool>
+
+   <tool>
+     <name>Bash</name>
+     <params>
+       <command>npx ts-node /tmp/extract-selectors.ts "{APP_URL}{path}" "{screen_name}"</command>
+       <description>Extract selectors automatically using AI vision</description>
+     </params>
+   </tool>
+
+5. **Review extracted selectors**:
+   - Examine the confidence score (aim for ≥0.7)
+   - Review the identified selectors for completeness
+   - Check if critical elements are covered
+   - Note any missing elements that may need manual addition
+
+6. **Validate extraction results**:
+   - If confidence ≥ 0.7 and all critical elements found: **Proceed to Phase 2**
+   - If confidence < 0.7 or missing critical elements: **Ask user if they want to:**
+     - Continue with automatic extraction (may need manual selector refinement later)
+     - Supplement with manual codegen exploration
+     - Re-run extraction with different timing settings
+
+7. **Fallback to manual codegen** (if automatic extraction fails completely):
    ```bash
    npm run test:codegen
    ```
 
-   In codegen:
-   - Navigate to the screen you're testing
-   - Interact with all elements (buttons, forms, links, dropdowns, etc.)
-   - Note the selectors that Playwright generates
-   - Identify which selectors are stable (data-testid, role, text) vs fragile (CSS classes, XPath)
-   - Take note of any timing issues or async operations
-   - Observe network requests and state changes
+   If AI extraction fails or returns no results, fall back to the manual workflow:
+   - Launch codegen and manually explore the UI
+   - Note selectors from codegen inspector
+   - Report findings and continue to Phase 2
 
-3. **Explore existing code**:
+8. **Explore existing code** (for context):
    - Check if similar helpers exist in `utils/api/`
    - Review authentication requirements (see `utils/api/auth-helper.ts`)
    - Look at existing test patterns in `tests/`
-   - Read `CLAUDE.md` for project conventions
    - Check example tests in `tests/examples/` for AI feature usage
 
-4. **Ask clarifying questions** if the requirements are unclear
-
-5. **DO NOT write any code yet** - this phase is for understanding only
+**Note:** This automatic extraction costs ~$0.08 per page (Sonnet AI vision). Results are NOT cached but are saved in the generated helper code for reuse.
 
 ---
 
@@ -423,7 +522,8 @@ test.describe('Screen Name - P1 Tests', () => {
 ## Workflow Reminders
 
 - **Start with Phase 0** - Create feature branch before any work
-- **DO NOT skip Phase 1** - Use codegen to explore UI thoroughly
+- **Phase 1 is now automatic** - AI vision extracts selectors automatically (no manual codegen needed!)
+- **Fallback available** - Can still use manual codegen if automatic extraction fails
 - **Plan tests by priority** - P1 only, document P2/P3
 - **Helper-first always** - No raw navigation/actions in tests
 - **Use subagents** if exploration is complex
@@ -433,6 +533,7 @@ test.describe('Screen Name - P1 Tests', () => {
 - **Run `npm test` before committing** - All tests must pass, this is mandatory
 - **Keep commits atomic** - One screen/feature per commit
 - **English only** - This is a public template, maintain consistency
+- **AI cost awareness** - Automatic extraction costs ~$0.08 per page (worth it for time savings!)
 
 ---
 
