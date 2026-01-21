@@ -10,6 +10,35 @@ This file tracks improvements, bugs, and changes discovered while working on the
 
 ## ✨ Enhancements
 
+### [ENHANCE-008] Make /new-screen Command Fully Automatic
+**Date:** 2026-01-21
+**Priority:** High
+**Status:** 🔴 Not Started
+
+**Goal:**
+Replace manual codegen exploration in `/new-screen` with automatic AI vision-based selector extraction.
+
+**Current Problem:**
+- Command requires user to manually explore UI with codegen
+- User must observe and report selectors back to Claude
+- Workflow takes 5-10 minutes and is tedious
+
+**Proposed Solution:**
+- Automatically capture screenshot from APP_URL
+- Use AI vision (Sonnet) to identify selectors
+- Extract selectors without user interaction
+- Generate helper + tests in ~30 seconds
+
+**Benefits:**
+- Saves 5-10 minutes of manual work per screen
+- Fully automatic workflow (user runs command and waits)
+- Better UX - matches user expectations
+- Trade-off: ~$0.08 more in AI costs per screen (worth it)
+
+**Reference:** `docs/IMPROVEMENT-NEW-SCREEN-AUTO.md` (complete specification)
+
+---
+
 ### [ENHANCE-007] Review Command Improvements
 **Date:** 2026-01-14
 **Priority:** Low
