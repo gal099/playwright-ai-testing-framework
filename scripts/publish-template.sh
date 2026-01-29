@@ -144,6 +144,12 @@ fi
 
 # Step 7: Rename context-user.md to context.md in template
 print_step "Configuring template commands..."
+# Remove dev version of context.md if it exists
+if [ -f "$TEMP_DIR/.claude/commands/context.md" ]; then
+    rm "$TEMP_DIR/.claude/commands/context.md"
+    print_success "Removed dev context.md"
+fi
+# Rename user version to context.md
 if [ -f "$TEMP_DIR/.claude/commands/context-user.md" ]; then
     mv "$TEMP_DIR/.claude/commands/context-user.md" "$TEMP_DIR/.claude/commands/context.md"
     print_success "Renamed context-user.md to context.md"
