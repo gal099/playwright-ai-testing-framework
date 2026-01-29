@@ -54,6 +54,27 @@ These commands help you work efficiently with the framework:
 
 ---
 
+### `/context`
+**Get project context** - Quickly understand the current project state.
+
+**When to use:** When returning to the project after time away, or when you need to understand what's been done.
+
+**What it does:**
+- ✅ Reads project documentation (CLAUDE.md, README.md, package.json)
+- ✅ Shows current git status and recent commits
+- ✅ Lists existing test areas and helpers
+- ✅ Displays available commands
+- ✅ Provides quick start guide
+
+**Example:**
+```
+/context
+```
+
+**Note:** This is a **read-only command** - no files are modified, no setup is performed.
+
+---
+
 ### `/new-screen <screen_name>`
 Automate tests for a new screen or feature **with fully automatic selector extraction**.
 

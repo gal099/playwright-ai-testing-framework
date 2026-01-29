@@ -18,6 +18,7 @@ When developing framework features, refer to `CLAUDE.md` to understand:
 - Common patterns users expect
 - Commands available to users:
   - `/setup` - First-time initialization (converts to template, installs deps, creates .env, initializes git)
+  - `/context` - Get project context when returning to work (read-only)
   - `/new-screen` - Automate tests for new screen
   - `/fix-test` - Debug and fix failing tests
   - `/add-coverage` - Add more test coverage

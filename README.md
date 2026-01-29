@@ -164,6 +164,7 @@ When working with [Claude Code](https://claude.ai/code), available commands depe
 
 **Template Usage Mode:**
 - `/setup` - Initialize framework for your project (first-time setup)
+- `/context` - Get project context when returning to work
 - `/new-screen <screen_name>` - Automate tests for a new screen
 - `/fix-test [test_name]` - Debug and fix failing tests
 - `/add-coverage <feature>` - Add more test coverage
