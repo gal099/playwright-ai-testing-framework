@@ -31,10 +31,10 @@ This is an **AI-Powered Playwright Testing Framework** for E2E testing. It combi
 
 These commands help you work efficiently with the framework:
 
-### `/setup`
-**First-time setup command** - Initialize the framework for your project.
+### `/start-user`
+**First-time setup command** - Initialize the framework for YOUR project (template usage mode).
 
-**When to use:** After cloning the framework repository for the first time.
+**When to use:** After cloning the framework repository to test your application.
 
 **What it does:**
 - ✅ Converts framework to Template Mode (removes dev files)
@@ -47,10 +47,10 @@ These commands help you work efficiently with the framework:
 
 **Example:**
 ```
-/setup
+/start-user
 ```
 
-**Note:** This is a **one-time command**. After setup, use the other commands below for daily work.
+**Note:** This is a **one-time command** for template users. If you're working ON the framework, use `/start-dev` instead. After setup, use the other commands below for daily work.
 
 ---
 

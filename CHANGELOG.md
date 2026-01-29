@@ -5,11 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **BREAKING: Command Restructure for Safety**: Renamed and reorganized onboarding commands
+  - **`/setup` → `/start-user`**: Renamed for clarity (template usage mode)
+  - **NEW: `/start-dev`**: Framework developer entry point (prevents accidental template conversion)
+  - **Moved to `.claude/commands/`**: Both commands now accessible immediately after clone
+  - **Safety improvement**: Framework developers can't accidentally destroy their dev environment
+  - **Location changes**:
+    - `.claude/commands-user/setup.md` → `.claude/commands/start-user.md`
+    - `.claude/commands-user/context.md` → `.claude/commands/context.md`
+    - NEW: `.claude/commands/start-dev.md`
+  - **Why this matters**:
+    - Previously: Framework developers could accidentally run `/setup` and destroy CLAUDE-DEV.md
+    - Now: Clear separation with `/start-dev` for framework work, `/start-user` for template usage
+    - Context available to both modes (useful for returning to work)
+
+- **`/start-dev` Command - Framework Developer Entry Point**: `.claude/commands/start-dev.md`
+  - **Purpose**: Get started with framework development (working ON the framework)
+  - **Features**:
+    - Reads CLAUDE-DEV.md (framework guide)
+    - Shows pending framework tasks (TODO_framework.md)
+    - Lists framework examples (tests/examples/)
+    - Lists AI helpers (utils/ai-helpers/)
+    - Displays framework development commands
+    - Shows recent framework commits and branches
+    - Provides framework development workflow
+  - **Safety**: Does NOT convert to template, does NOT delete git history
+  - **Use Cases**: Framework contributor onboarding, returning to framework work
+
+- **`/context` Command - Now Available in Both Modes**: `.claude/commands/context.md`
+  - **Previously**: Only in commands-user/ folder
+  - **Now**: In commands/ folder, accessible in both framework dev and template mode
+  - **Why**: Useful for returning users in both modes
+
 ## [1.8.0] - 2026-01-29
 
 ### Added
 
-- **`/setup` Command - Automated Project Initialization**: `.claude/commands-user/setup.md`
+- **`/start-user` Command - Automated Project Initialization**: `.claude/commands/start-user.md` (formerly `/setup`)
   - **Purpose**: Fully automated first-time setup for new users starting with the framework
   - **Features**:
     - Converts framework to Template Mode (removes CLAUDE-DEV.md, framework dev files)

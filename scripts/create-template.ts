@@ -613,43 +613,60 @@ async function copyUserCommands() {
   const claudeDir = path.join(ROOT, '.claude');
   const commandsUserDir = path.join(claudeDir, 'commands-user');
   const commandsDir = path.join(claudeDir, 'commands');
-  const reviewChangesFile = path.join(commandsDir, 'review-changes.md');
 
-  // Check if commands-user exists
-  try {
-    await fs.access(commandsUserDir);
-  } catch (error) {
-    console.log('   ⚠ commands-user/ not found - skipping command copy');
-    console.log();
-    return;
-  }
-
-  // Check if review-changes.md exists in commands/
-  let reviewChangesContent: string | null = null;
-  try {
-    reviewChangesContent = await fs.readFile(reviewChangesFile, 'utf-8');
-    console.log('   ✓ Found review-changes.md in commands/ (shared with users)');
-  } catch (error) {
-    console.log('   ⚠ review-changes.md not found in commands/ - will not be included in template');
-  }
+  // Files that should be in template (shared or user-specific)
+  const sharedFiles = [
+    'start-user.md',
+    'context.md',
+    'review-changes.md'
+  ];
 
   try {
-    // Remove existing commands directory
-    await fs.rm(commandsDir, { recursive: true, force: true });
-
-    // Copy commands-user to commands
-    await fs.cp(commandsUserDir, commandsDir, { recursive: true });
-    console.log('   ✓ Copied user commands to .claude/commands/');
-
-    // Also copy review-changes.md if it exists (used by both dev and users)
-    if (reviewChangesContent) {
-      await fs.writeFile(path.join(commandsDir, 'review-changes.md'), reviewChangesContent);
-      console.log('   ✓ Added review-changes.md to template (shared command)');
+    // Save shared command files from commands/
+    const savedFiles: Record<string, string> = {};
+    for (const file of sharedFiles) {
+      const filePath = path.join(commandsDir, file);
+      try {
+        savedFiles[file] = await fs.readFile(filePath, 'utf-8');
+        console.log(`   ✓ Saved ${file} (shared command)`);
+      } catch (error) {
+        console.log(`   ⚠ ${file} not found - skipping`);
+      }
     }
 
-    // Remove commands-user source directory
-    await fs.rm(commandsUserDir, { recursive: true, force: true });
-    console.log('   ✓ Removed commands-user/ source');
+    // Remove existing commands directory (includes framework-only commands like start-dev.md)
+    await fs.rm(commandsDir, { recursive: true, force: true });
+    console.log('   ✓ Removed framework commands directory');
+
+    // Create fresh commands directory
+    await fs.mkdir(commandsDir, { recursive: true });
+
+    // Copy commands-user content if it exists
+    try {
+      await fs.access(commandsUserDir);
+      const userCommands = await fs.readdir(commandsUserDir);
+      for (const file of userCommands) {
+        if (file === '.gitkeep') continue;
+        await fs.copyFile(
+          path.join(commandsUserDir, file),
+          path.join(commandsDir, file)
+        );
+      }
+      console.log('   ✓ Copied user commands to .claude/commands/');
+
+      // Remove commands-user source directory
+      await fs.rm(commandsUserDir, { recursive: true, force: true });
+      console.log('   ✓ Removed commands-user/ source');
+    } catch (error) {
+      console.log('   ⚠ commands-user/ not found - only using shared commands');
+    }
+
+    // Restore shared command files
+    for (const [file, content] of Object.entries(savedFiles)) {
+      await fs.writeFile(path.join(commandsDir, file), content);
+      console.log(`   ✓ Added ${file} to template`);
+    }
+
   } catch (error: any) {
     console.log(`   ⚠ Could not copy user commands: ${error.message}`);
   }

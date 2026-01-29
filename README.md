@@ -80,23 +80,21 @@ cd playwright-ai-testing-framework
 # 2. Install dependencies
 npm install
 
-# 3. Read framework development guide
-# Open CLAUDE-DEV.md for detailed instructions
-
-# 4. Check pending framework tasks
-# See TODO_framework.md for improvements tracking
-
-# 5. (Optional) Configure .env for testing AI features
-cp .env.example .env
-# Add your ANTHROPIC_API_KEY if testing AI-powered features
-
-# 6. Run existing tests to ensure everything works
-npm test
+# 3. Get framework development context (requires Claude Code)
+/start-dev
 ```
+
+The `/start-dev` command will:
+- Read framework development documentation (CLAUDE-DEV.md)
+- Show pending tasks and recent commits
+- List framework examples and AI helpers
+- Display framework development commands
+- Provide quick start guide
 
 **Next steps:**
 - Use `/improve-framework` to add new features
 - Use `/fix-framework` to fix bugs
+- Use `/context` when returning to work
 - See `CLAUDE-DEV.md` for complete workflow
 
 ### 📋 Template Usage Mode
@@ -111,10 +109,10 @@ git clone <repo-url>
 cd playwright-ai-testing-framework
 
 # Run automated setup command (requires Claude Code)
-/setup
+/start-user
 ```
 
-The `/setup` command will automatically:
+The `/start-user` command will automatically:
 - Convert framework to template mode
 - Install all dependencies
 - Create .env file
@@ -163,7 +161,7 @@ npm test
 When working with [Claude Code](https://claude.ai/code), available commands depend on your mode:
 
 **Template Usage Mode:**
-- `/setup` - Initialize framework for your project (first-time setup)
+- `/start-user` - Initialize framework for your project (first-time setup)
 - `/context` - Get project context when returning to work
 - `/new-screen <screen_name>` - Automate tests for a new screen
 - `/fix-test [test_name]` - Debug and fix failing tests
@@ -171,8 +169,10 @@ When working with [Claude Code](https://claude.ai/code), available commands depe
 - `/review-changes [base_branch]` - AI code review before PR
 
 **Framework Development Mode:**
+- `/start-dev` - Get framework development context (first-time)
 - `/improve-framework <description>` - Add new framework features
 - `/fix-framework <bug_description>` - Fix framework bugs
+- `/context` - Refresh context when returning to work
 - `/review-changes [base_branch]` - AI code review before PR
 
 See `CLAUDE.md` (template mode) or `CLAUDE-DEV.md` (framework mode) for detailed command documentation.
