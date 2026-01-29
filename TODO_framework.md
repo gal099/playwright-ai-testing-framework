@@ -39,6 +39,39 @@ Replace manual codegen exploration in `/new-screen` with automatic AI vision-bas
 
 ---
 
+### [ENHANCE-009] GitHub Actions for Automatic Template Publishing
+**Date:** 2026-01-29
+**Priority:** Medium
+**Status:** 🔴 Not Started
+
+**Goal:**
+Automate template repository publishing using GitHub Actions when new versions are released.
+
+**Current Workflow:**
+- Manual script execution: `./scripts/publish-template.sh X.Y.Z`
+- Works well but requires developer intervention
+- Dev must remember to run after each release
+
+**Proposed Solution:**
+- GitHub Actions workflow triggered on version tags (v*)
+- Workflow runs same logic as publish-template.sh
+- Automatic sync from dev repo to template repo
+- Only triggers on main branch tags
+
+**Benefits:**
+- Zero-touch publishing after tagging release
+- Consistent and reliable process
+- No risk of forgetting to publish template
+- Better alignment between dev and template repos
+
+**Implementation Notes:**
+- Keep manual script as fallback/testing option
+- Add GitHub Actions secrets for template repo access
+- Test workflow on non-production tag first
+- Document workflow in CLAUDE-DEV.md
+
+---
+
 ### [ENHANCE-007] Review Command Improvements
 **Date:** 2026-01-14
 **Priority:** Low
