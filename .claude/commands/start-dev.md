@@ -4,19 +4,33 @@ Get started with framework development (working ON the framework).
 
 ---
 
+📦 **TWO-REPO STRUCTURE**
+
+This framework has two separate repositories:
+- **Dev Repo** (for framework developers): `playwright-ai-testing-framework` - Framework development
+- **Template Repo** (for end users): `playwright-ai-testing-template` - Use for YOUR tests
+
+**Make sure you cloned the DEV repo**:
+```bash
+git clone git@github.com:gal099/playwright-ai-testing-framework.git
+```
+
+---
+
 ⚠️ **FOR FRAMEWORK DEVELOPERS ONLY**
 
-This command is for people working ON the framework itself (adding features, fixing bugs, improving architecture). If you're a QA tester using this framework to test YOUR application, use `/start-user` instead.
+This command is for people working ON the framework itself (adding features, fixing bugs, improving architecture). If you're a QA tester using this framework to test YOUR application, clone the template repo and use `/start-user` instead.
 
 **✅ Use this command if:**
-- You cloned the repo to improve the framework
+- You cloned the **dev repo** to improve the framework
 - You want to add new AI helpers or features
 - You're fixing bugs in framework code
 - You're a framework contributor
 
 **❌ DO NOT use this command if:**
-- You want to test YOUR application (use `/start-user` instead)
+- You want to test YOUR application (clone template repo, use `/start-user`)
 - You're a QA tester using the template
+- You cloned the **template repo** by mistake (clone dev repo instead)
 
 ---
 
@@ -85,11 +99,17 @@ Provide a concise summary with this format:
 - **`/context`** - Refresh context when returning to work
 - **`/start-dev`** - Show this context (this command)
 
-**User commands** (for reference, but you're working ON the framework):
-- `/start-user` - Initialize template for end users
-- `/new-screen` - Automate tests for new screen
-- `/fix-test` - Debug failing tests
-- `/add-coverage` - Add more test coverage
+**Publishing to Template Repo:**
+```bash
+# After merging to main and tagging release
+./scripts/publish-template.sh X.Y.Z
+```
+
+**User commands** (available in template repo only, for reference):
+- `/start-user` - Initialize template for end users (template repo)
+- `/new-screen` - Automate tests for new screen (template repo)
+- `/fix-test` - Debug failing tests (template repo)
+- `/add-coverage` - Add more test coverage (template repo)
 
 ---
 
@@ -151,6 +171,10 @@ git checkout -b framework/add-your-feature
 7. **Review**: `/review-changes main`
 8. **Commit** with `framework:` prefix
 9. **Push** and create PR
+10. **Publish to template**: After merging to main and tagging release:
+    ```bash
+    ./scripts/publish-template.sh X.Y.Z
+    ```
 
 ---
 
