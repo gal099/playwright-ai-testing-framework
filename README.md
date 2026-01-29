@@ -1,6 +1,6 @@
 # Playwright AI Testing Framework
 
-> **Version 1.7.0** | [Changelog](CHANGELOG.md)
+> **Version 1.8.0** | [Changelog](CHANGELOG.md)
 
 A testing framework that serves as both a development platform and a reusable template for E2E testing with Claude AI integration. Combines traditional Playwright testing with AI capabilities for intelligent test generation, self-healing selectors, and AI-powered assertions.
 
@@ -103,14 +103,39 @@ npm test
 
 If you're working **WITH** the framework (testing your application):
 
+**Option A: Automated Setup (Recommended)**
+
 ```bash
-# 1. Generate clean template (removes framework dev files)
+# Clone the repository
+git clone <repo-url>
+cd playwright-ai-testing-framework
+
+# Run automated setup command (requires Claude Code)
+/setup
+```
+
+The `/setup` command will automatically:
+- Convert framework to template mode
+- Install all dependencies
+- Create .env file
+- Initialize fresh git repository
+- Run health check
+- Guide you through remote repository setup
+
+**Option B: Manual Setup**
+
+```bash
+# 1. Clone the repository
+git clone <repo-url>
+cd playwright-ai-testing-framework
+
+# 2. Generate clean template (removes framework dev files)
 npm run create-template
 
-# 2. Install dependencies
+# 3. Install dependencies
 npm install
 
-# 3. Configure for YOUR application
+# 4. Configure for YOUR application
 cp .env.example .env
 # Edit .env with:
 #   APP_URL=http://your-app-url.com
@@ -118,13 +143,13 @@ cp .env.example .env
 #   ADMIN_PASS=your-admin-password
 #   ANTHROPIC_API_KEY=sk-ant-... (optional, for AI features)
 
-# 4. (Optional) Configure Claude Code settings
+# 5. (Optional) Configure Claude Code settings
 cp .claude/settings.local.json.example .claude/settings.local.json
 
-# 5. Run example tests
+# 6. Run example tests
 npm test
 
-# 6. Start creating your tests
+# 7. Start creating your tests
 # Use /new-screen <screen_name> to create tests for your app
 ```
 
@@ -137,9 +162,18 @@ npm test
 
 When working with [Claude Code](https://claude.ai/code), available commands depend on your mode:
 
-**Template Usage Mode** (see commands above in "Two Usage Modes" section)
+**Template Usage Mode:**
+- `/setup` - Initialize framework for your project (first-time setup)
+- `/context` - Get project context when returning to work
+- `/new-screen <screen_name>` - Automate tests for a new screen
+- `/fix-test [test_name]` - Debug and fix failing tests
+- `/add-coverage <feature>` - Add more test coverage
+- `/review-changes [base_branch]` - AI code review before PR
 
-**Framework Development Mode** (see commands above in "Two Usage Modes" section)
+**Framework Development Mode:**
+- `/improve-framework <description>` - Add new framework features
+- `/fix-framework <bug_description>` - Fix framework bugs
+- `/review-changes [base_branch]` - AI code review before PR
 
 See `CLAUDE.md` (template mode) or `CLAUDE-DEV.md` (framework mode) for detailed command documentation.
 

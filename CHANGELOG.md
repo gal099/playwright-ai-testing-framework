@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-01-29
+
+### Added
+
+- **`/setup` Command - Automated Project Initialization**: `.claude/commands-user/setup.md`
+  - **Purpose**: Fully automated first-time setup for new users starting with the framework
+  - **Features**:
+    - Converts framework to Template Mode (removes CLAUDE-DEV.md, framework dev files)
+    - Installs all dependencies (`npm install`)
+    - Creates `.env` file from `.env.example`
+    - Completely cleans git history (`rm -rf .git`, `git init`)
+    - Creates initial commit with fresh history
+    - Runs health check (`npm test tests/examples/`)
+    - Guides user through remote repository setup (GitHub CLI or manual)
+  - **Benefits**:
+    - **Zero manual steps** - One command does everything
+    - **Safe defaults** - Tested workflow from clone to first test
+    - **Clear guidance** - Step-by-step post-setup instructions
+    - **Fresh start** - Clean git history for user's project
+  - **Cost**: No AI costs (pure bash automation)
+  - **Status**: Fully tested in isolated environment
+
+- **`/context` Command - Quick Project State Overview**: `.claude/commands-user/context.md`
+  - **Purpose**: Help returning users quickly understand current project state
+  - **Features**:
+    - Reads project documentation (CLAUDE.md, README.md, package.json)
+    - Shows git status and recent commits (last 10)
+    - Lists existing test areas (tests/) and helpers (utils/api/)
+    - Displays all available branches
+    - Provides available commands reference
+    - Shows quick start guide
+  - **Benefits**:
+    - **Fast onboarding** - Get up to speed in seconds
+    - **Read-only** - No file modifications or setup operations
+    - **Comprehensive** - All context in one place
+    - **Safe** - Cannot break anything, just reads state
+  - **Cost**: No AI costs (pure information gathering)
+  - **Use Cases**: Returning after break, new team member orientation, project overview
+
 ## [1.7.0] - 2026-01-21
 
 ### Added
