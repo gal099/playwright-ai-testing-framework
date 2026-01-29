@@ -31,6 +31,29 @@ This is an **AI-Powered Playwright Testing Framework** for E2E testing. It combi
 
 These commands help you work efficiently with the framework:
 
+### `/setup`
+**First-time setup command** - Initialize the framework for your project.
+
+**When to use:** After cloning the framework repository for the first time.
+
+**What it does:**
+- ✅ Converts framework to Template Mode (removes dev files)
+- ✅ Installs all dependencies
+- ✅ Creates .env file from template
+- ✅ Initializes fresh git repository (clean history)
+- ✅ Creates initial commit
+- ✅ Runs health check to verify setup
+- ✅ Guides you to set up remote repository
+
+**Example:**
+```
+/setup
+```
+
+**Note:** This is a **one-time command**. After setup, use the other commands below for daily work.
+
+---
+
 ### `/new-screen <screen_name>`
 Automate tests for a new screen or feature **with fully automatic selector extraction**.
 

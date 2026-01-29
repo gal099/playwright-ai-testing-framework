@@ -16,7 +16,12 @@ When developing framework features, refer to `CLAUDE.md` to understand:
 - How end users interact with the framework
 - Environment variables users configure
 - Common patterns users expect
-- Commands available to users (/new-screen, /fix-test, /add-coverage)
+- Commands available to users:
+  - `/setup` - First-time initialization (converts to template, installs deps, creates .env, initializes git)
+  - `/new-screen` - Automate tests for new screen
+  - `/fix-test` - Debug and fix failing tests
+  - `/add-coverage` - Add more test coverage
+  - `/review-changes` - AI code review (shared with framework dev)
 
 This helps ensure backwards compatibility and good UX. You can open `CLAUDE.md` manually when needed, but this file (`CLAUDE-DEV.md`) is your primary reference for framework development.
 
