@@ -640,49 +640,139 @@ Always document estimated costs in:
 
 ---
 
-## 🔄 When to Update the Template
+## 🔄 Publishing Template (Two-Repo Structure)
 
-After improving the framework, update the template for users:
+This framework uses a **two-repository model**:
 
-### Run create-template Script
+1. **Dev Repo** (`playwright-ai-testing-framework`) - Framework development (this repo)
+2. **Template Repo** (`playwright-ai-testing-template`) - Clean template for end users
+
+### When to Publish Template
+
+Publish a new template version after:
+- Adding significant framework features
+- Fixing important framework bugs
+- Creating a new framework release (after tagging)
+
+### Publishing Process
+
+**Step 1: Complete framework work and create release**
 
 ```bash
-# This converts your project into a clean template
-npm run create-template
+# Ensure all tests pass
+npm test
+
+# Update version files
+vim package.json     # Update version
+vim README.md        # Update version badge
+vim CHANGELOG.md     # Document changes
+
+# Commit version bump
+git add package.json README.md CHANGELOG.md
+git commit -m "chore: bump version to X.Y.Z"
+
+# Create git tag
+git tag -a vX.Y.Z -m "Release vX.Y.Z: Brief description"
+
+# Push to dev repo
+git push origin main
+git push origin vX.Y.Z
 ```
 
-**What it does:**
-- Removes project-specific tests and helpers
-- Keeps framework code and examples
-- Copies user commands to `.claude/commands/`
-- Removes framework dev files (`CLAUDE-DEV.md`, etc.)
-- Updates documentation for end users
+**Step 2: Publish to template repo**
 
-**When to run it:**
-- After adding a significant new framework feature
-- After fixing important framework bugs
-- Before sharing template with others
-- When preparing a new framework version
+```bash
+# Run publish script (same version as dev repo)
+./scripts/publish-template.sh X.Y.Z
+```
 
-### What Gets Removed
+**What the script does:**
+1. ✅ Runs all tests (must pass)
+2. ✅ Runs `create-template` to prepare files
+3. ✅ Clones template repository
+4. ✅ Syncs files (excludes dev-only files)
+5. ✅ Renames `context-user.md` → `context.md`
+6. ✅ Updates package name to `playwright-ai-testing-template`
+7. ✅ Commits changes with release message
+8. ✅ Creates git tag (same version)
+9. ✅ Pushes to template repo
 
-The script removes:
-- Project-specific tests (except `tests/examples/`)
-- Project-specific helpers (except core framework helpers)
-- `.claude/commands-dev/` (framework dev commands)
-- `CLAUDE-DEV.md` (this file)
+**Files excluded from template:**
+- `CLAUDE-DEV.md` (framework dev guide)
+- `TODO_framework.md` (pending framework tasks)
 - `new_ideas/` (development notes)
-- `TODO_framework.md`
+- `scripts/publish-template.sh` (publishing script)
+- `.claude/commands/improve-framework.md`
+- `.claude/commands/fix-framework.md`
+- `.claude/commands/start-dev.md`
+- `.claude/commands/context-dev.md`
+- `.claude/commands-user/` (folder, not needed after sync)
 
-### What Gets Kept
+**Files synced to template:**
+- ✅ Framework code (`config/`, `fixtures/`, `utils/ai-helpers/`, `utils/selectors/`)
+- ✅ Core helpers (`auth-helper.ts`, `otp-helper.ts`)
+- ✅ Example tests (`tests/examples/`)
+- ✅ User commands (`.claude/commands/` - filtered)
+- ✅ User documentation (`CLAUDE.md`, `README.md` - template versions)
+- ✅ AI strategy docs (`docs/AI-MODEL-STRATEGY.md`)
 
-The script keeps:
-- Framework code (`config/`, `fixtures/`, `utils/ai-helpers/`, `utils/selectors/`)
-- Core helpers (`auth-helper.ts`, `otp-helper.ts`)
-- Example tests (`tests/examples/`)
-- Documentation (`docs/AI-MODEL-STRATEGY.md`, etc.)
-- User commands (`.claude/commands/`)
-- `CLAUDE.md` (for users)
+### Two Different Context Commands
+
+The framework has **two versions** of the `/context` command:
+
+**Dev Repo** (`.claude/commands/context-dev.md`):
+- Shows framework development context
+- Reads CLAUDE-DEV.md and TODO_framework.md
+- Lists framework examples and AI helpers
+- Shows framework branches and pending tasks
+
+**Template Repo** (`.claude/commands/context.md`):
+- Shows user project context
+- Reads CLAUDE.md (not CLAUDE-DEV.md)
+- Lists user test areas and helpers
+- Shows user commits and branches
+
+During publish, `context-user.md` is renamed to `context.md` in template.
+
+### Version Synchronization
+
+Both repos use **synchronized versions**:
+- Dev repo: `v1.9.0`
+- Template repo: `v1.9.0` (same)
+
+This makes it clear which framework version the template is based on.
+
+### Testing Template Before Release
+
+Always test the template after publishing:
+
+```bash
+# Clone template repo
+git clone git@github.com:gal099/playwright-ai-testing-template.git /tmp/template-test
+cd /tmp/template-test
+
+# Install and test
+npm install
+npm test
+
+# Verify:
+# - All tests pass
+# - No CLAUDE-DEV.md (should not exist)
+# - CLAUDE.md exists (user guide)
+# - /context command works (user version)
+# - /start-user command exists
+```
+
+### Creating GitHub Release (Optional)
+
+After publishing, optionally create a GitHub release:
+
+```bash
+gh release create vX.Y.Z \
+  --repo gal099/playwright-ai-testing-template \
+  --title "v X.Y.Z - Brief Title" \
+  --notes "See [framework CHANGELOG](https://github.com/gal099/playwright-ai-testing-framework/blob/main/CHANGELOG.md) for details."
+```
 
 ---
 

@@ -617,7 +617,7 @@ async function copyUserCommands() {
   // Files that should be in template (shared or user-specific)
   const sharedFiles = [
     'start-user.md',
-    'context.md',
+    'context-user.md',  // Will be renamed to context.md in template
     'review-changes.md'
   ];
 
@@ -663,8 +663,10 @@ async function copyUserCommands() {
 
     // Restore shared command files
     for (const [file, content] of Object.entries(savedFiles)) {
-      await fs.writeFile(path.join(commandsDir, file), content);
-      console.log(`   ✓ Added ${file} to template`);
+      // Rename context-user.md to context.md in template
+      const targetFile = file === 'context-user.md' ? 'context.md' : file;
+      await fs.writeFile(path.join(commandsDir, targetFile), content);
+      console.log(`   ✓ Added ${targetFile} to template${file !== targetFile ? ' (renamed from ' + file + ')' : ''}`);
     }
 
   } catch (error: any) {
