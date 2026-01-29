@@ -55,11 +55,12 @@ Provide a concise summary with this format:
 
 ### 🤖 Available Commands
 
+- **`/setup`** - Initialize framework for your project (first-time only)
+- **`/context`** - Refresh project context (this command)
 - **`/new-screen <screen_name>`** - Automate tests for a new screen/feature
 - **`/fix-test [test_name]`** - Debug and fix failing tests
 - **`/add-coverage <feature>`** - Add more test coverage
 - **`/review-changes [base_branch]`** - Get AI code review before PR
-- **`/context`** - Refresh project context (this command)
 
 ---
 

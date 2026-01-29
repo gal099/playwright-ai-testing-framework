@@ -2,6 +2,24 @@
 
 Initialize a new project using the Playwright AI Testing Framework template.
 
+---
+
+⚠️ **WARNING: DESTRUCTIVE OPERATION**
+
+This command will **DELETE your git history** (`rm -rf .git`) and create a fresh repository. This is intentional for starting a new project with clean history.
+
+**✅ Use this command if:**
+- You just cloned the framework template for a new project
+- You want to start with a clean git history (no framework commits)
+- You're setting up the framework for the first time
+
+**❌ DO NOT use this command if:**
+- You have existing commits you want to preserve
+- You're working on an active project with important git history
+- You're working on the framework itself (use `/improve-framework` or `/fix-framework` instead)
+
+---
+
 ## Read
 
 Read these files to understand the framework:
